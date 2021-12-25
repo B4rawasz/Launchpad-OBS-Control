@@ -1,5 +1,5 @@
-# Launchpad OBS control
- You now coan control your's OBS witch Launchpad!!!
+# Launchpad OBS Control
+ You now can control your OBS witch Launchpad!!!
 
 
 !!!Work in progress!!!
