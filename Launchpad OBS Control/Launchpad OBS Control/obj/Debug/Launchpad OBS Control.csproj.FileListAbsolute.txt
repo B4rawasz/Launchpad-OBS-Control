@@ -1,0 +1,14 @@
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Launchpad OBS Control.exe.config
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Launchpad OBS Control.exe
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Launchpad OBS Control.pdb
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.AssemblyReference.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.SuggestedBindingRedirects.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad_OBS_Control.Form1.resources
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad_OBS_Control.Properties.Resources.resources
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.GenerateResource.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.CoreCompileInputs.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.exe
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.pdb
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Midi.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\websocket-sharp.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.CopyComplete
