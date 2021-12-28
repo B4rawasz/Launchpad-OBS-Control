@@ -117,7 +117,6 @@ namespace Launchpad_OBS_Control
 
         //Variables
         bool authRequired = false;
-        bool waitForAuth = true;
 
         string data = "";
 
@@ -136,6 +135,8 @@ namespace Launchpad_OBS_Control
         int colorStreamOFF = 21;
         int colorRecordingON = 5;
         int colorRecordingOFF = 21;
+        int colorVirtualCamON = 5;
+        int colorVirtualCamOFF = 21;
         int colorSceneON = 5;
         int colorSceneOFF = 21;
         int colorUnMuted = 21;
@@ -195,7 +196,7 @@ namespace Launchpad_OBS_Control
                 //sr = new StreamReader("./json/auth.json");
                 //string auth = sr.ReadToEnd();
                 //ws.Send(auth);
-                ws.Send("{\"request-type\": \"GetAuthRequired\",\"message-id\": \"0\"}");
+                ws.Send("{\"request-type\": \"GetAuthRequired\",\"message-id\": \"1\"}");
             }
             catch (Exception ex)
             {
@@ -304,6 +305,10 @@ namespace Launchpad_OBS_Control
                         {
                             padsRequests.Add(match.Groups[0].Value, i);
                         }
+                        else if (match.Groups[0].Value == "StartStopVirtualCam")
+                        {
+                            padsRequests.Add(match.Groups[0].Value, i);
+                        }
                         else if (match.Groups[0].Value == "SetCurrentScene")
                         {
                             Match sceneName = Regex.Match(settings, "(?<=\"scene-name\": \").*?(?=\")");
@@ -338,11 +343,19 @@ namespace Launchpad_OBS_Control
             outputDevice.SendSysEx(stream);
             byte[] recording = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
             outputDevice.SendSysEx(recording);
+            byte[] virtualCam = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, 247 };
+            outputDevice.SendSysEx(virtualCam);
 
             foreach (KeyValuePair<string, int> pad in padsScenes)
             {
                 byte[] scene = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorSceneOFF, 247 };
                 outputDevice.SendSysEx(scene);
+            }
+
+            foreach (KeyValuePair<string, int> pad in padsMute)
+            {
+                byte[] mute = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorUnMuted, 247 };
+                outputDevice.SendSysEx(mute);
             }
 
             outputDevice.Close();
@@ -359,6 +372,8 @@ namespace Launchpad_OBS_Control
             {
                 ws.Send("{\"request-type\": \"GetMute\",\"message-id\": \"5\",\"source\": \"" + pad.Key + "\"}");
             }
+
+            ws.Send("{\"request-type\": \"GetVirtualCamStatus\",\"message-id\": \"6\"}");
 
             //ws.Send("{\"request-type\": \"GetSourcesList\",\"message-id\": \"5\"}");
         }
@@ -423,6 +438,32 @@ namespace Launchpad_OBS_Control
                         outputDevice.Close();
                     }
                 }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            //Getting virtual cam status
+            Match isVirtualCamMatch = Regex.Match(e.Data, "(?<=\"isVirtualCam\":).*?(?=,)");
+            if (isVirtualCamMatch.Success)
+            {
+                try
+                {
+                    if (isVirtualCamMatch.Groups[0].Value == "true")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, (byte)colorVirtualCamON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                    }
+                    else
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -540,6 +581,21 @@ namespace Launchpad_OBS_Control
                     {
                         outputDevice.Open();
                         byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                    else if (upadte_type.Groups[0].Value == "VirtualCamStarted")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, (byte)colorVirtualCamON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                        Console.WriteLine("asdfffa");
+                    }
+                    else if (upadte_type.Groups[0].Value == "VirtualCamStopped")
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, 247 };
                         outputDevice.SendSysEx(stat);
                         outputDevice.Close();
                     }
