@@ -36,8 +36,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.passwordBox = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.connectStatusLabel = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -96,6 +96,7 @@
             // 
             // passwordBox
             // 
+            this.passwordBox.CausesValidation = false;
             this.passwordBox.Location = new System.Drawing.Point(6, 167);
             this.passwordBox.Name = "passwordBox";
             this.passwordBox.Size = new System.Drawing.Size(169, 20);
@@ -119,13 +120,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection Settings";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(6, 241);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(169, 23);
-            this.progressBar1.TabIndex = 7;
-            // 
             // connectStatusLabel
             // 
             this.connectStatusLabel.AutoSize = true;
@@ -134,6 +128,13 @@
             this.connectStatusLabel.Size = new System.Drawing.Size(73, 13);
             this.connectStatusLabel.TabIndex = 8;
             this.connectStatusLabel.Text = "Disconnected";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(6, 241);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(169, 23);
+            this.progressBar1.TabIndex = 7;
             // 
             // Form1
             // 

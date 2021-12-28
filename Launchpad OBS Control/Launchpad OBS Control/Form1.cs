@@ -109,6 +109,11 @@ namespace Launchpad_OBS_Control
             {"Logo", 99 }
         };
 
+        Dictionary<string, int> padsRequests = new Dictionary<string, int>(); //Start Stop Rec/Stream
+        Dictionary<string, int> padsScenes = new Dictionary<string, int>(); //Set Scene
+        Dictionary<string, int> padsMedia = new Dictionary<string, int>(); //Play Pause Media, Restart Media
+        Dictionary<string, int> padsMute = new Dictionary<string, int>(); //Togle Mute
+
 /*************************************************************************************************/
 
         //Variables
@@ -124,6 +129,17 @@ namespace Launchpad_OBS_Control
 
         WebSocket ws;
 
+        /*************************************************************************************************/
+
+        //Color settings
+
+        int colorStreamON = 5;
+        int colorStreamOFF = 21;
+        int colorRecordingON = 5;
+        int colorRecordingOFF = 21;
+        int colorSceneON = 5;
+        int colorSceneOFF = 21;
+
 /*************************************************************************************************/
 
         //Program
@@ -134,6 +150,8 @@ namespace Launchpad_OBS_Control
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            LoadSettings();
+
             //Searching for MIDI devices
             if (DeviceManager.InputDevices.Count == 0)
             {
@@ -237,6 +255,15 @@ namespace Launchpad_OBS_Control
                 //Listening for messages from MIDI
                 inputDevice.NoteOn += InputDevice_NoteOn;
                 inputDevice.ControlChange += InputDevice_ControlChange;
+                //Setting programer mode in Launchpad
+                outputDevice.Open();
+                byte[] programmer = { 240, 0, 32, 41, 2, 13, 14, 1, 247 };
+                outputDevice.SendSysEx(programmer);
+                outputDevice.Close();
+                //Loading lights
+                LoadLightSettings();
+                //Getting data from OBS
+                GetDataFromOBS();
 
                 midiInBox.Enabled = false;
                 midiOutBox.Enabled = false;
@@ -250,6 +277,85 @@ namespace Launchpad_OBS_Control
                 inputDevice.Close();
                 authRequired = false;
             }
+        }
+
+        /*************************************************************************************************/
+
+        //Load pad settings
+
+        void LoadSettings()
+        {
+            //First load settings on startup
+            for (int i = 11; i < 99; i++)
+            {
+                try
+                {
+                    sr = new StreamReader("./json/pad" + i + ".json");
+                    string settings = sr.ReadToEnd();
+                    Match match = Regex.Match(settings, "(?<=\"request-type\": \").*?(?=\")");
+                    if (match.Success)
+                    {
+                        if (match.Groups[0].Value == "StartStopRecording")
+                        {
+                            padsRequests.Add(match.Groups[0].Value, i);
+                        }
+                        else if (match.Groups[0].Value == "StartStopStreaming")
+                        {
+                            padsRequests.Add(match.Groups[0].Value, i);
+                        }
+                        else if (match.Groups[0].Value == "SetCurrentScene")
+                        {
+                            Match sceneName = Regex.Match(settings, "(?<=\"scene-name\": \").*?(?=\")");
+                            if (sceneName.Success)
+                            {
+                                padsScenes.Add(sceneName.Groups[0].Value, i);
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        void LoadLightSettings()
+        {
+
+            outputDevice.Open();
+            byte[] stream = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
+            outputDevice.SendSysEx(stream);
+            byte[] recording = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
+            outputDevice.SendSysEx(recording);
+
+            foreach (KeyValuePair<string, int> pad in padsScenes)
+            {
+                byte[] scene = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorSceneOFF, 247 };
+                outputDevice.SendSysEx(scene);
+            }
+
+
+
+            outputDevice.Close();
+
+        }
+
+        void GetDataFromOBS()
+        {
+            ws.Send("{\"request-type\": \"GetRecordingStatus\",\"message-id\": \"2\"}");
+            ws.Send("{\"request-type\": \"GetStreamingStatus\",\"message-id\": \"3\"}");
+            ws.Send("{\"request-type\": \"GetCurrentScene\",\"message-id\": \"4\"}");
+        }
+
+        void ReLoadSettings()
+        {
+            LoadSettings();
+
+            LoadLightSettings();
+
+            GetDataFromOBS();
         }
 
 /*************************************************************************************************/
@@ -269,6 +375,7 @@ namespace Launchpad_OBS_Control
         {
             data = e.Data;
             Console.WriteLine(e.Data);
+            //Checking if auth is required
             Match authMatch = Regex.Match(e.Data, "(?<=\"authRequired\":).*?(?=,)");
             if (authMatch.Success)
             {
@@ -281,6 +388,130 @@ namespace Launchpad_OBS_Control
                     authRequired = false;
                 }
             }
+            //Geting recording status
+            Match isRecMatch = Regex.Match(e.Data, "(?<=\"isRecording\":).*?(?=,)");
+            if (isRecMatch.Success)
+            {
+                try
+                {
+                    if (isRecMatch.Groups[0].Value == "true")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, (byte)colorRecordingON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                    }
+                    else
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            //Geting Stream Status
+            Match isStreamMatch = Regex.Match(e.Data, "(?<=\"streaming\":).*?(?=,)");
+            if (isStreamMatch.Success)
+            {
+                try
+                {
+                    if (isStreamMatch.Groups[0].Value == "true")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, (byte)colorStreamON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                    }
+                    else
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            Match activeScene = Regex.Match(e.Data, "(?<=\"message-id\":\"4\",\"name\":\").*?(?=\")");
+            if (activeScene.Success)
+            {
+                try
+                {
+                    outputDevice.Open();
+                    byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[activeScene.Groups[0].Value], (byte)colorSceneON, 247 };
+                    outputDevice.SendSysEx(stat);
+                    outputDevice.Close();
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            //Match update-type
+            Match upadte_type = Regex.Match(e.Data, "(?<=\"update-type\":\").*?(?=\")");
+            if (upadte_type.Success)
+            {
+                try
+                {
+                    if (upadte_type.Groups[0].Value == "RecordingStarted")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, (byte)colorRecordingON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                    }
+                    else if (upadte_type.Groups[0].Value == "RecordingStopped")
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                    else if (upadte_type.Groups[0].Value == "StreamStarted")
+                    {
+                        outputDevice.Open();
+                        byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, (byte)colorStreamON, 247 };
+                        outputDevice.SendSysEx(blink);
+                        outputDevice.Close();
+                    }
+                    else if (upadte_type.Groups[0].Value == "StreamStopped")
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                    else if (upadte_type.Groups[0].Value == "TransitionVideoEnd")
+                    {
+                        Match fromScene = Regex.Match(e.Data, "(?<=\"from-scene\":\").*?(?=\")");
+                        if (fromScene.Success)
+                        {
+                            outputDevice.Open();
+                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[fromScene.Groups[0].Value], (byte)colorSceneOFF, 247 };
+                            outputDevice.SendSysEx(stat);
+                            outputDevice.Close();
+                        }
+                        Match toScene = Regex.Match(e.Data, "(?<=\"to-scene\":\").*?(?=\")");
+                        if (toScene.Success)
+                        {
+                            outputDevice.Open();
+                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[toScene.Groups[0].Value], (byte)colorSceneON, 247 };
+                            outputDevice.SendSysEx(stat);
+                            outputDevice.Close();
+                        }
+
+                    }
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
         }
 
         bool Auth()
@@ -318,7 +549,18 @@ namespace Launchpad_OBS_Control
 
         void PadPressed(int padID, int velocity)
         {
-
+            if(velocity > 0)
+            {
+                try
+                {
+                    sr = new StreamReader("./json/pad" + padID + ".json");
+                    string message = sr.ReadToEnd();
+                    ws.Send(message);
+                }catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
         }
 
 /*************************************************************************************************/
