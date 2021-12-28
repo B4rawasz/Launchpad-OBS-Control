@@ -111,7 +111,6 @@ namespace Launchpad_OBS_Control
 
         Dictionary<string, int> padsRequests = new Dictionary<string, int>(); //Start Stop Rec/Stream
         Dictionary<string, int> padsScenes = new Dictionary<string, int>(); //Set Scene
-        Dictionary<string, int> padsMedia = new Dictionary<string, int>(); //Play Pause Media, Restart Media
         Dictionary<string, int> padsMute = new Dictionary<string, int>(); //Togle Mute
 
 /*************************************************************************************************/
@@ -129,7 +128,7 @@ namespace Launchpad_OBS_Control
 
         WebSocket ws;
 
-        /*************************************************************************************************/
+/*************************************************************************************************/
 
         //Color settings
 
@@ -139,6 +138,8 @@ namespace Launchpad_OBS_Control
         int colorRecordingOFF = 21;
         int colorSceneON = 5;
         int colorSceneOFF = 21;
+        int colorUnMuted = 21;
+        int colorMuted = 5;
 
 /*************************************************************************************************/
 
@@ -191,10 +192,10 @@ namespace Launchpad_OBS_Control
             //Checking if auth is required
             try
             {
-                sr = new StreamReader("./json/auth.json");
-                string auth = sr.ReadToEnd();
-                ws.Send(auth);
-                //ws.Send("{\"request-type\": \"GetAuthRequired\",\"message-id\": \"0\"}");
+                //sr = new StreamReader("./json/auth.json");
+                //string auth = sr.ReadToEnd();
+                //ws.Send(auth);
+                ws.Send("{\"request-type\": \"GetAuthRequired\",\"message-id\": \"0\"}");
             }
             catch (Exception ex)
             {
@@ -279,7 +280,7 @@ namespace Launchpad_OBS_Control
             }
         }
 
-        /*************************************************************************************************/
+/*************************************************************************************************/
 
         //Load pad settings
 
@@ -311,6 +312,14 @@ namespace Launchpad_OBS_Control
                                 padsScenes.Add(sceneName.Groups[0].Value, i);
                             }
                         }
+                        else if (match.Groups[0].Value == "ToggleMute")
+                        {
+                            Match source = Regex.Match(settings, "(?<=\"source\": \").*?(?=\")");
+                            if (source.Success)
+                            {
+                                padsMute.Add(source.Groups[0].Value, i);
+                            }
+                        }
                     }
 
                 }
@@ -336,8 +345,6 @@ namespace Launchpad_OBS_Control
                 outputDevice.SendSysEx(scene);
             }
 
-
-
             outputDevice.Close();
 
         }
@@ -347,6 +354,13 @@ namespace Launchpad_OBS_Control
             ws.Send("{\"request-type\": \"GetRecordingStatus\",\"message-id\": \"2\"}");
             ws.Send("{\"request-type\": \"GetStreamingStatus\",\"message-id\": \"3\"}");
             ws.Send("{\"request-type\": \"GetCurrentScene\",\"message-id\": \"4\"}");
+
+            foreach (KeyValuePair<string, int> pad in padsMute)
+            {
+                ws.Send("{\"request-type\": \"GetMute\",\"message-id\": \"5\",\"source\": \"" + pad.Key + "\"}");
+            }
+
+            //ws.Send("{\"request-type\": \"GetSourcesList\",\"message-id\": \"5\"}");
         }
 
         void ReLoadSettings()
@@ -388,7 +402,7 @@ namespace Launchpad_OBS_Control
                     authRequired = false;
                 }
             }
-            //Geting recording status
+            //Getting recording status
             Match isRecMatch = Regex.Match(e.Data, "(?<=\"isRecording\":).*?(?=,)");
             if (isRecMatch.Success)
             {
@@ -413,7 +427,7 @@ namespace Launchpad_OBS_Control
                     Console.WriteLine(ex.Message);
                 }
             }
-            //Geting Stream Status
+            //Getting Stream Status
             Match isStreamMatch = Regex.Match(e.Data, "(?<=\"streaming\":).*?(?=,)");
             if (isStreamMatch.Success)
             {
@@ -438,6 +452,7 @@ namespace Launchpad_OBS_Control
                     Console.WriteLine(ex.Message);
                 }
             }
+            //Getting active scene
             Match activeScene = Regex.Match(e.Data, "(?<=\"message-id\":\"4\",\"name\":\").*?(?=\")");
             if (activeScene.Success)
             {
@@ -452,6 +467,48 @@ namespace Launchpad_OBS_Control
                     Console.WriteLine(ex.Message);
                 }
             }
+            //Getting sources status
+            Match muted = Regex.Match(e.Data, "(?<=\"message-id\":\"5\",\"muted\":).*?(?=,)");
+            if (muted.Success)
+            {
+                Match mutedName = Regex.Match(e.Data, "(?<=\"name\":\").*?(?=\")");
+                if (mutedName.Success)
+                {
+                    if(muted.Groups[0].Value == "true")
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorMuted, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                    else
+                    {
+                        outputDevice.Open();
+                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorUnMuted, 247 };
+                        outputDevice.SendSysEx(stat);
+                        outputDevice.Close();
+                    }
+                }
+            }
+
+            //Getting sources
+            /*Match sourcesList = Regex.Match(e.Data, "(?<=\"message-id\":\"5\",\"sources\":).*?(?=])");
+            if (sourcesList.Success)
+            {
+                MatchCollection sources = Regex.Matches(sourcesList.Groups[0].Value, "(?<=\"name\":\").*?(?=\")");
+                
+                foreach (Match source in sources)
+                {
+                    Console.WriteLine(source);
+                    try
+                    {
+
+                    }catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                }
+            }*/
             //Match update-type
             Match upadte_type = Regex.Match(e.Data, "(?<=\"update-type\":\").*?(?=\")");
             if (upadte_type.Success)
@@ -506,7 +563,33 @@ namespace Launchpad_OBS_Control
                         }
 
                     }
-                }catch (Exception ex)
+                    else if (upadte_type.Groups[0].Value == "SourceMuteStateChanged")
+                    {
+                        Match sourceName = Regex.Match(e.Data, "(?<=\"sourceName\":\").*?(?=\")");
+                        if (sourceName.Success)
+                        {
+                            Match isMuted = Regex.Match(e.Data, "(?<=\"muted\":).*?(?=,)");
+                            if (isMuted.Success)
+                            {
+                                if(isMuted.Groups[0].Value == "false")
+                                {
+                                    outputDevice.Open();
+                                    byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[sourceName.Groups[0].Value], (byte)colorUnMuted, 247 };
+                                    outputDevice.SendSysEx(stat);
+                                    outputDevice.Close();
+                                }
+                                else
+                                {
+                                    outputDevice.Open();
+                                    byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[sourceName.Groups[0].Value], (byte)colorMuted, 247 };
+                                    outputDevice.SendSysEx(stat);
+                                    outputDevice.Close();
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
                 }
@@ -535,9 +618,9 @@ namespace Launchpad_OBS_Control
             Console.WriteLine(secret);
             Console.WriteLine(auth_response_hash);
             Console.WriteLine(auth_response);
-            Console.WriteLine("{\"request-type\": \"Authenticate\",\"message-id\": \"1\",\"auth\": \"" + auth_response + "\"}");
+            Console.WriteLine("{\"request-type\":\"Authenticate\",\"message-id\":\"1\",\"auth\":\"" + auth_response + "\"}");
 
-            ws.Send("{\"request-type\": \"Authenticate\",\"message-id\": \"1\",\"auth\": \"" + auth_response +"\"}");
+            ws.Send("{\"request-type\":\"Authenticate\",\"message-id\":\"1\",\"auth\":\"" + auth_response +"\"}");
 
             //{"error":"Authentication Failed.","message-id":"1","status":"error"}
 
