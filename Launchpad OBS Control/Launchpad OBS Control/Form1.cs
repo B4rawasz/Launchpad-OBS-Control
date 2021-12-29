@@ -337,29 +337,64 @@ namespace Launchpad_OBS_Control
 
         void LoadLightSettings()
         {
-
             outputDevice.Open();
-            byte[] stream = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
-            outputDevice.SendSysEx(stream);
-            byte[] recording = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
-            outputDevice.SendSysEx(recording);
-            byte[] virtualCam = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, 247 };
-            outputDevice.SendSysEx(virtualCam);
-
-            foreach (KeyValuePair<string, int> pad in padsScenes)
+            try
             {
-                byte[] scene = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorSceneOFF, 247 };
-                outputDevice.SendSysEx(scene);
+                byte[] stream = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopStreaming"], (byte)colorStreamOFF, 247 };
+                outputDevice.SendSysEx(stream);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine (ex.Message);
             }
 
-            foreach (KeyValuePair<string, int> pad in padsMute)
+            try
             {
-                byte[] mute = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorUnMuted, 247 };
-                outputDevice.SendSysEx(mute);
+                byte[] recording = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopRecording"], (byte)colorRecordingOFF, 247 };
+                outputDevice.SendSysEx(recording);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                byte[] virtualCam = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, 247 };
+                outputDevice.SendSysEx(virtualCam);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                foreach (KeyValuePair<string, int> pad in padsScenes)
+                {
+                    byte[] scene = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorSceneOFF, 247 };
+                    outputDevice.SendSysEx(scene);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            try
+            {
+                foreach (KeyValuePair<string, int> pad in padsMute)
+                {
+                    byte[] mute = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)pad.Value, (byte)colorUnMuted, 247 };
+                    outputDevice.SendSysEx(mute);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             outputDevice.Close();
-
         }
 
         void GetDataFromOBS()
@@ -439,6 +474,7 @@ namespace Launchpad_OBS_Control
                     }
                 }catch (Exception ex)
                 {
+                    outputDevice.Close();
                     Console.WriteLine(ex.Message);
                 }
             }
@@ -465,6 +501,7 @@ namespace Launchpad_OBS_Control
                 }
                 catch (Exception ex)
                 {
+                    outputDevice.Close();
                     Console.WriteLine(ex.Message);
                 }
             }
@@ -490,6 +527,7 @@ namespace Launchpad_OBS_Control
                     }
                 }catch (Exception ex)
                 {
+                    outputDevice.Close();
                     Console.WriteLine(ex.Message);
                 }
             }
@@ -505,6 +543,7 @@ namespace Launchpad_OBS_Control
                     outputDevice.Close();
                 }catch (Exception ex)
                 {
+                    outputDevice.Close();
                     Console.WriteLine(ex.Message);
                 }
             }
@@ -512,23 +551,30 @@ namespace Launchpad_OBS_Control
             Match muted = Regex.Match(e.Data, "(?<=\"message-id\":\"5\",\"muted\":).*?(?=,)");
             if (muted.Success)
             {
-                Match mutedName = Regex.Match(e.Data, "(?<=\"name\":\").*?(?=\")");
-                if (mutedName.Success)
+                try
                 {
-                    if(muted.Groups[0].Value == "true")
+                    Match mutedName = Regex.Match(e.Data, "(?<=\"name\":\").*?(?=\")");
+                    if (mutedName.Success)
                     {
-                        outputDevice.Open();
-                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorMuted, 247 };
-                        outputDevice.SendSysEx(stat);
-                        outputDevice.Close();
+                        if (muted.Groups[0].Value == "true")
+                        {
+                            outputDevice.Open();
+                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorMuted, 247 };
+                            outputDevice.SendSysEx(stat);
+                            outputDevice.Close();
+                        }
+                        else
+                        {
+                            outputDevice.Open();
+                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorUnMuted, 247 };
+                            outputDevice.SendSysEx(stat);
+                            outputDevice.Close();
+                        }
                     }
-                    else
-                    {
-                        outputDevice.Open();
-                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsMute[mutedName.Groups[0].Value], (byte)colorUnMuted, 247 };
-                        outputDevice.SendSysEx(stat);
-                        outputDevice.Close();
-                    }
+                }catch (Exception ex)
+                {
+                    outputDevice.Close();
+                    Console.WriteLine(ex.Message);
                 }
             }
 
@@ -590,7 +636,6 @@ namespace Launchpad_OBS_Control
                         byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)padsRequests["StartStopVirtualCam"], (byte)colorVirtualCamOFF, (byte)colorVirtualCamON, 247 };
                         outputDevice.SendSysEx(blink);
                         outputDevice.Close();
-                        Console.WriteLine("asdfffa");
                     }
                     else if (upadte_type.Groups[0].Value == "VirtualCamStopped")
                     {
@@ -601,23 +646,37 @@ namespace Launchpad_OBS_Control
                     }
                     else if (upadte_type.Groups[0].Value == "TransitionVideoEnd")
                     {
-                        Match fromScene = Regex.Match(e.Data, "(?<=\"from-scene\":\").*?(?=\")");
-                        if (fromScene.Success)
+                        try
                         {
-                            outputDevice.Open();
-                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[fromScene.Groups[0].Value], (byte)colorSceneOFF, 247 };
-                            outputDevice.SendSysEx(stat);
-                            outputDevice.Close();
-                        }
-                        Match toScene = Regex.Match(e.Data, "(?<=\"to-scene\":\").*?(?=\")");
-                        if (toScene.Success)
+                            Match fromScene = Regex.Match(e.Data, "(?<=\"from-scene\":\").*?(?=\")");
+                            if (fromScene.Success)
+                            {
+                                outputDevice.Open();
+                                byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[fromScene.Groups[0].Value], (byte)colorSceneOFF, 247 };
+                                outputDevice.SendSysEx(stat);
+                                outputDevice.Close();
+                            }
+                        }catch (Exception ex)
                         {
-                            outputDevice.Open();
-                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[toScene.Groups[0].Value], (byte)colorSceneON, 247 };
-                            outputDevice.SendSysEx(stat);
                             outputDevice.Close();
+                            Console.WriteLine(ex.Message);
                         }
 
+                        try
+                        {
+                            Match toScene = Regex.Match(e.Data, "(?<=\"to-scene\":\").*?(?=\")");
+                            if (toScene.Success)
+                            {
+                                outputDevice.Open();
+                                byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)padsScenes[toScene.Groups[0].Value], (byte)colorSceneON, 247 };
+                                outputDevice.SendSysEx(stat);
+                                outputDevice.Close();
+                            }
+                        }catch(Exception ex)
+                        {
+                            outputDevice.Close();
+                            Console.WriteLine(ex.Message);
+                        }
                     }
                     else if (upadte_type.Groups[0].Value == "SourceMuteStateChanged")
                     {
@@ -647,6 +706,7 @@ namespace Launchpad_OBS_Control
                 }
                 catch (Exception ex)
                 {
+                    outputDevice.Close();
                     Console.WriteLine(ex.Message);
                 }
             }
