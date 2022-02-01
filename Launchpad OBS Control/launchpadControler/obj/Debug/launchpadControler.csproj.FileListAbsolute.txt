@@ -1,0 +1,8 @@
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\bin\Debug\launchpadControler.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\bin\Debug\launchpadControler.pdb
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.LaunchpadControl.resources
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.csproj.GenerateResource.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.csproj.CoreCompileInputs.cache
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.pdb
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\launchpadControler\obj\Debug\launchpadControler.csproj.AssemblyReference.cache

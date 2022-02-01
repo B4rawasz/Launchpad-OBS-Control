@@ -12,3 +12,7 @@ D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\L
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Midi.dll
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\websocket-sharp.dll
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad OBS Control.csproj.CopyComplete
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\AxInterop.WMPLib.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad_OBS_Control.SetForm.resources
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Newtonsoft.Json.dll
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Newtonsoft.Json.xml
