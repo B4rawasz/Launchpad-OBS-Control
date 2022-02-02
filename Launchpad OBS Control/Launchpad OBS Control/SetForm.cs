@@ -59,7 +59,6 @@ namespace Launchpad_OBS_Control
             LoadSceneList();
             LoadMediaList();
             LoadMuteList();
-            LoadTransitionList();
         }
 
         /******************************************************************************/
@@ -99,14 +98,6 @@ namespace Launchpad_OBS_Control
             }
         }
 
-        void LoadTransitionList()
-        {
-            foreach(TransitionClass transitionClass in transitionList)
-            {
-                TransitionListBox.Items.Add(transitionClass.name);
-            }
-        }
-
         /******************************************************************************/
         //Madia
         private void selectedIndex_Listbox(object sender, EventArgs e)
@@ -119,7 +110,7 @@ namespace Launchpad_OBS_Control
                 {
                     foreach(MediaClass mediaClass in media.mediaClasses)
                     {
-                        if(mediaClass.name == listBox.SelectedItem)
+                        if(mediaClass.name == listBox.SelectedItem.ToString())
                         {
                             if(mediaClass.type == "ffmpeg_source")
                             {
@@ -142,7 +133,7 @@ namespace Launchpad_OBS_Control
                         }
                     }
                 }
-                catch(Exception ex)
+                catch
                 {
 
                 }
@@ -152,143 +143,7 @@ namespace Launchpad_OBS_Control
         /******************************************************************************/
         //Color section
 
-        private void color1PickButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-            colorDialog.Color = color1;
-            if(colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                color1 = colorDialog.Color;
-                UpdateColor();
-            }
-        }
 
-        private void color2PickButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-            colorDialog.Color = color2;
-            if (colorDialog.ShowDialog() == DialogResult.OK)
-            {
-                color2 = colorDialog.Color;
-                UpdateColor();
-            }
-        }
-
-        void UpdateColor()
-        {
-            color1PanelRGB.BackColor = color1;
-            color2PanelRGB.BackColor = color2;
-
-            rColor1textBox.Text = color1.R.ToString();
-            gColor1textBox.Text = color1.G.ToString();
-            bColor1textBox.Text = color1.B.ToString();
-
-            rColor2textBox.Text = color2.R.ToString();
-            gColor2textBox.Text = color2.G.ToString();
-            bColor2textBox.Text = color2.B.ToString();
-        }
-
-        private void Color1TextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                TextBox textBox = (TextBox)sender;
-                if (Int32.Parse(textBox.Text) < 0)
-                {
-                    textBox.Text = "0";
-                }
-                if (Int32.Parse(textBox.Text) > 255)
-                {
-                    textBox.Text = "255";
-                }
-
-                color1 = Color.FromArgb(255, Int32.Parse(rColor1textBox.Text), Int32.Parse(gColor1textBox.Text), Int32.Parse(bColor1textBox.Text));
-
-                hexColor1textBox.Text = "#" + color1.R.ToString("X2") + color1.G.ToString("X2") + color1.B.ToString("X2");
-
-                UpdateColor();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void Color2TextBox_TextChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                TextBox textBox = (TextBox)sender;
-                if (Int32.Parse(textBox.Text) < 0)
-                {
-                    textBox.Text = "0";
-                }
-                if (Int32.Parse(textBox.Text) > 255)
-                {
-                    textBox.Text = "255";
-                }
-
-                color2 = Color.FromArgb(255, Int32.Parse(rColor2textBox.Text), Int32.Parse(gColor2textBox.Text), Int32.Parse(bColor2textBox.Text));
-
-                hexColor2textBox.Text = "#" + color2.R.ToString("X2") + color2.G.ToString("X2") + color2.B.ToString("X2");
-
-                UpdateColor();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void hexColor1textBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    if (!hexColor1textBox.Text.StartsWith("#"))
-                    {
-                        hexColor1textBox.Text = "#" + hexColor1textBox.Text;
-                    }
-
-                    Color color = ColorTranslator.FromHtml(hexColor1textBox.Text);
-
-                    rColor1textBox.Text = color.R.ToString();
-                    gColor1textBox.Text = color.G.ToString();
-                    bColor1textBox.Text = color.B.ToString();
-
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void hexColor2textBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            try
-            {
-                if (e.KeyCode == Keys.Enter)
-                {
-                    if (!hexColor2textBox.Text.StartsWith("#"))
-                    {
-                        hexColor2textBox.Text = "#" + hexColor2textBox.Text;
-                    }
-
-                    Color color = ColorTranslator.FromHtml(hexColor2textBox.Text);
-
-                    rColor2textBox.Text = color.R.ToString();
-                    gColor2textBox.Text = color.G.ToString();
-                    bColor2textBox.Text = color.B.ToString();
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
 
         /******************************************************************************/
         //Function checkboxes
@@ -389,11 +244,18 @@ namespace Launchpad_OBS_Control
         {
             try
             {
-                sw = new StreamWriter("./json/set/pad" + padID + "set.json");
-                sw.Write("");
-                sw.Close();
-                MessageBox.Show("Settings cleared", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
+                DialogResult dr = MessageBox.Show("Are you sure ?", "!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if(dr == DialogResult.Yes)
+                {
+                    sw = new StreamWriter("./json/set/pad" + padID + "set.json");
+                    sw.Write("");
+                    sw.Close();
+                    sw = new StreamWriter("./json/pad" + padID + ".json");
+                    sw.Write("");
+                    sw.Close();
+                    MessageBox.Show("Settings cleared", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                }
             }
             catch (Exception ex)
             {
@@ -408,6 +270,7 @@ namespace Launchpad_OBS_Control
         {
             /******************************************************************************/
             //settings
+            string pathSet = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\json\set\pad" + padID + "set.json");
             string mode = "Static";
 
             foreach (CheckBox c in LightBoxList)
@@ -422,26 +285,16 @@ namespace Launchpad_OBS_Control
             {
                 Mode = mode,
 
-                ColorOn = new ColorClass()
-                {
-                    R = rColor1textBox.Text,
-                    G = gColor1textBox.Text,
-                    B = bColor1textBox.Text,
-                },
+                ColorON = Color1NumericUpDown.Value.ToString(),
 
-                ColorOFF = new ColorClass()
-                {
-                    R = rColor2textBox.Text,
-                    G = gColor2textBox.Text,
-                    B = bColor2textBox.Text
-                }
+                ColorOFF = Color2NumericUpDown.Value.ToString()
             };
 
             string jsons = JsonConvert.SerializeObject(set);
 
             try
             {
-                sw = new StreamWriter("./json/set/pad" + padID + "set.json");
+                sw = new StreamWriter(pathSet);
                 sw.Write(jsons);
                 sw.Close();
             }
@@ -454,8 +307,9 @@ namespace Launchpad_OBS_Control
             //commands
 
             string requestName = "Stream";
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\json\pad" + padID + ".json");
 
-            foreach(CheckBox c in boxList)
+            foreach (CheckBox c in boxList)
             {
                 if (c.Checked)
                 {
@@ -475,7 +329,7 @@ namespace Launchpad_OBS_Control
 
                     try
                     {
-                        sw = new StreamWriter("./json/pad" + padID + ".json");
+                        sw = new StreamWriter(path);
                         sw.Write(json);
                         sw.Close();
                         success(set, startStopClass);
@@ -496,7 +350,7 @@ namespace Launchpad_OBS_Control
 
                     try
                     {
-                        sw = new StreamWriter("./json/pad" + padID + ".json");
+                        sw = new StreamWriter(path);
                         sw.Write(json);
                         sw.Close();
                         success(set, startStopClass);
@@ -517,7 +371,7 @@ namespace Launchpad_OBS_Control
 
                     try
                     {
-                        sw = new StreamWriter("./json/pad" + padID + ".json");
+                        sw = new StreamWriter(path);
                         sw.Write(json);
                         sw.Close();
                         success(set, startStopClass);
@@ -529,8 +383,7 @@ namespace Launchpad_OBS_Control
                 }
                 else if (requestName == "Scene")
                 {
-                    if (TransitionListBox.SelectedItem == "Default")
-                    {
+                    
                         if(SceneListBox.SelectedItem != null)
                         {
                             SceneClass sceneClass = new SceneClass()
@@ -542,7 +395,7 @@ namespace Launchpad_OBS_Control
 
                             try
                             {
-                                sw = new StreamWriter("./json/pad" + padID + ".json");
+                                sw = new StreamWriter(path);
                                 sw.Write(json);
                                 sw.Close();
                                 success(set, sceneClass);
@@ -556,40 +409,7 @@ namespace Launchpad_OBS_Control
                         {
                             MessageBox.Show("You have to choose a scene", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                    }
-                    else if(TransitionListBox.SelectedItem != "Default" && TransitionListBox.SelectedItem != null)
-                    {
-                        if(SceneListBox.SelectedItem != null)
-                        {
-                            SceneTransitionClass sceneTransitionClass = new SceneTransitionClass()
-                            {
-                                sceneName = SceneListBox.SelectedItem.ToString(),
-                                transitionName = TransitionListBox.SelectedItem.ToString()
-                            };
-
-                            string json = JsonConvert.SerializeObject(sceneTransitionClass);
-
-                            try
-                            {
-                                sw = new StreamWriter("./json/pad" + padID + ".json");
-                                sw.Write(json);
-                                sw.Close();
-                                success(set, sceneTransitionClass);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("You have to choose a scene", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else if(TransitionListBox.SelectedItem == null)
-                    {
-                        MessageBox.Show("You have to pick a transition", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    
                 }
                 else if (requestName == "Media")
                 {
@@ -607,11 +427,11 @@ namespace Launchpad_OBS_Control
                             {
                                 foreach (MediaClass mediaClass in media.mediaClasses)
                                 {
-                                    if (mediaClass.name == listBox.SelectedItem)
+                                    if (mediaClass.name == listBox.SelectedItem.ToString())
                                     {
                                         if (mediaClass.type == "ffmpeg_source")
                                         {
-                                            string mediaAction = "PlayPauseMedia";
+                                            string mediaAction = "Play/Pause Media";
 
                                             foreach(CheckBox c in MediaBoxList)
                                             {
@@ -621,7 +441,7 @@ namespace Launchpad_OBS_Control
                                                 }
                                             }
 
-                                            if(mediaAction == "PlayPauseMedia")
+                                            if(mediaAction == "Play/Pause Media")
                                             {
                                                 MediaFFMPEGClass mediaFFMPEGClass = new MediaFFMPEGClass()
                                                 {
@@ -633,7 +453,7 @@ namespace Launchpad_OBS_Control
 
                                                 try
                                                 {
-                                                    sw = new StreamWriter("./json/pad" + padID + ".json");
+                                                    sw = new StreamWriter(path);
                                                     sw.Write(json);
                                                     sw.Close();
                                                     success(set, mediaFFMPEGClass);
@@ -643,7 +463,7 @@ namespace Launchpad_OBS_Control
                                                     MessageBox.Show(ex.Message);
                                                 }
                                             }
-                                            else if(mediaAction == "RestartMedia")
+                                            else if(mediaAction == "Restart Media")
                                             {
                                                 MediaFFMPEGClass mediaFFMPEGClass = new MediaFFMPEGClass()
                                                 {
@@ -655,7 +475,7 @@ namespace Launchpad_OBS_Control
 
                                                 try
                                                 {
-                                                    sw = new StreamWriter("./json/pad" + padID + ".json");
+                                                    sw = new StreamWriter(path);
                                                     sw.Write(json);
                                                     sw.Close();
                                                     success(set, mediaFFMPEGClass);
@@ -665,7 +485,7 @@ namespace Launchpad_OBS_Control
                                                     MessageBox.Show(ex.Message);
                                                 }
                                             }
-                                            else if (mediaAction == "StopMedia")
+                                            else if (mediaAction == "Stop Media")
                                             {
                                                 MediaFFMPEGClass mediaFFMPEGClass = new MediaFFMPEGClass()
                                                 {
@@ -677,7 +497,7 @@ namespace Launchpad_OBS_Control
 
                                                 try
                                                 {
-                                                    sw = new StreamWriter("./json/pad" + padID + ".json");
+                                                    sw = new StreamWriter(path);
                                                     sw.Write(json);
                                                     sw.Close();
                                                     success(set, mediaFFMPEGClass);
@@ -711,7 +531,7 @@ namespace Launchpad_OBS_Control
 
                                             try
                                             {
-                                                sw = new StreamWriter("./json/pad" + padID + ".json");
+                                                sw = new StreamWriter(path);
                                                 sw.Write(json);
                                                 sw.Close();
                                                 success(set, media1Class);
@@ -724,7 +544,7 @@ namespace Launchpad_OBS_Control
                                     }
                                 }
                             }
-                            catch (Exception ex)
+                            catch
                             {
 
                             }
@@ -744,7 +564,7 @@ namespace Launchpad_OBS_Control
 
                         try
                         {
-                            sw = new StreamWriter("./json/pad" + padID + ".json");
+                            sw = new StreamWriter(path);
                             sw.Write(json);
                             sw.Close();
                             success(set, muteClass);
@@ -773,7 +593,7 @@ namespace Launchpad_OBS_Control
 
                         try
                         {
-                            sw = new StreamWriter("./json/pad" + padID + ".json");
+                            sw = new StreamWriter(path);
                             sw.Write(json);
                             sw.Close();
                             success(set, soundClass);
@@ -840,6 +660,19 @@ namespace Launchpad_OBS_Control
             this.DialogResult = DialogResult.OK;
         }
 
+        /******************************************************************************/
+        //Help
+
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+            HelpForm helpForm = new HelpForm();
+            DialogResult result = helpForm.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+
+            }
+            helpForm.Dispose();
+        }
     }
 }
 
@@ -850,16 +683,9 @@ namespace Launchpad_OBS_Control
 public class SettingsClass
 {
     public string Mode { get; set; }
-    public ColorClass ColorOn { get; set; }
-    public ColorClass ColorOFF { get; set; }
+    public string ColorON { get; set; }
+    public string ColorOFF { get; set; }
 
-}
-
-public class ColorClass
-{
-    public string R { get; set; }
-    public string G { get; set; }
-    public string B { get; set; }
 }
 
 public class StartStopClass

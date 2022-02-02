@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetForm));
             this.applyButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.idLabel = new System.Windows.Forms.Label();
@@ -37,37 +38,21 @@
             this.StaticLightCheckBox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.color1PickButton = new System.Windows.Forms.Button();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.hexColor1textBox = new System.Windows.Forms.TextBox();
-            this.bColor1textBox = new System.Windows.Forms.TextBox();
-            this.gColor1textBox = new System.Windows.Forms.TextBox();
-            this.rColor1textBox = new System.Windows.Forms.TextBox();
-            this.color1PanelRGB = new System.Windows.Forms.Panel();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.color2PickButton = new System.Windows.Forms.Button();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.hexColor2textBox = new System.Windows.Forms.TextBox();
-            this.bColor2textBox = new System.Windows.Forms.TextBox();
-            this.gColor2textBox = new System.Windows.Forms.TextBox();
-            this.rColor2textBox = new System.Windows.Forms.TextBox();
-            this.color2PanelRGB = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.HelpButton = new System.Windows.Forms.Button();
+            this.Color2NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.Color1NumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.VirtualCamCheckBox = new System.Windows.Forms.CheckBox();
             this.RecCheckBox = new System.Windows.Forms.CheckBox();
             this.StreamCheckBox = new System.Windows.Forms.CheckBox();
             this.SceneListBox = new System.Windows.Forms.ListBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.TransitionListBox = new System.Windows.Forms.ListBox();
             this.SceneCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.StopMediaCheckBox = new System.Windows.Forms.CheckBox();
@@ -90,11 +75,13 @@
             this.SoundCheckBox = new System.Windows.Forms.CheckBox();
             this.ClearButton = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Color2NumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Color1NumericUpDown)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox6.SuspendLayout();
@@ -103,6 +90,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.VolumeNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTrackBar)).BeginInit();
             this.groupBox9.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // applyButton
@@ -198,184 +186,6 @@
             this.panel2.Size = new System.Drawing.Size(194, 48);
             this.panel2.TabIndex = 4;
             // 
-            // color1PickButton
-            // 
-            this.color1PickButton.Location = new System.Drawing.Point(6, 123);
-            this.color1PickButton.Name = "color1PickButton";
-            this.color1PickButton.Size = new System.Drawing.Size(233, 23);
-            this.color1PickButton.TabIndex = 20;
-            this.color1PickButton.Text = "Pick";
-            this.color1PickButton.UseVisualStyleBackColor = true;
-            this.color1PickButton.Click += new System.EventHandler(this.color1PickButton_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(112, 100);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(26, 13);
-            this.label6.TabIndex = 19;
-            this.label6.Text = "Hex";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(112, 74);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(14, 13);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "B";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(112, 48);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(15, 13);
-            this.label4.TabIndex = 17;
-            this.label4.Text = "G";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(112, 22);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(15, 13);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "R";
-            // 
-            // hexColor1textBox
-            // 
-            this.hexColor1textBox.Location = new System.Drawing.Point(6, 97);
-            this.hexColor1textBox.Name = "hexColor1textBox";
-            this.hexColor1textBox.Size = new System.Drawing.Size(100, 20);
-            this.hexColor1textBox.TabIndex = 15;
-            this.hexColor1textBox.Text = "#000000";
-            this.hexColor1textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hexColor1textBox_KeyDown);
-            // 
-            // bColor1textBox
-            // 
-            this.bColor1textBox.Location = new System.Drawing.Point(6, 71);
-            this.bColor1textBox.Name = "bColor1textBox";
-            this.bColor1textBox.Size = new System.Drawing.Size(100, 20);
-            this.bColor1textBox.TabIndex = 13;
-            this.bColor1textBox.Text = "0";
-            this.bColor1textBox.TextChanged += new System.EventHandler(this.Color1TextBox_TextChanged);
-            // 
-            // gColor1textBox
-            // 
-            this.gColor1textBox.Location = new System.Drawing.Point(6, 45);
-            this.gColor1textBox.Name = "gColor1textBox";
-            this.gColor1textBox.Size = new System.Drawing.Size(100, 20);
-            this.gColor1textBox.TabIndex = 12;
-            this.gColor1textBox.Text = "0";
-            this.gColor1textBox.TextChanged += new System.EventHandler(this.Color1TextBox_TextChanged);
-            // 
-            // rColor1textBox
-            // 
-            this.rColor1textBox.Location = new System.Drawing.Point(6, 19);
-            this.rColor1textBox.Name = "rColor1textBox";
-            this.rColor1textBox.Size = new System.Drawing.Size(100, 20);
-            this.rColor1textBox.TabIndex = 11;
-            this.rColor1textBox.Text = "0";
-            this.rColor1textBox.TextChanged += new System.EventHandler(this.Color1TextBox_TextChanged);
-            // 
-            // color1PanelRGB
-            // 
-            this.color1PanelRGB.Location = new System.Drawing.Point(144, 22);
-            this.color1PanelRGB.Name = "color1PanelRGB";
-            this.color1PanelRGB.Size = new System.Drawing.Size(95, 95);
-            this.color1PanelRGB.TabIndex = 10;
-            // 
-            // color2PickButton
-            // 
-            this.color2PickButton.Location = new System.Drawing.Point(6, 123);
-            this.color2PickButton.Name = "color2PickButton";
-            this.color2PickButton.Size = new System.Drawing.Size(233, 23);
-            this.color2PickButton.TabIndex = 20;
-            this.color2PickButton.Text = "Pick";
-            this.color2PickButton.UseVisualStyleBackColor = true;
-            this.color2PickButton.Click += new System.EventHandler(this.color2PickButton_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(112, 100);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(26, 13);
-            this.label7.TabIndex = 19;
-            this.label7.Text = "Hex";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(112, 74);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(14, 13);
-            this.label8.TabIndex = 18;
-            this.label8.Text = "B";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(112, 48);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(15, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "G";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(112, 22);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(15, 13);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "R";
-            // 
-            // hexColor2textBox
-            // 
-            this.hexColor2textBox.Location = new System.Drawing.Point(6, 97);
-            this.hexColor2textBox.Name = "hexColor2textBox";
-            this.hexColor2textBox.Size = new System.Drawing.Size(100, 20);
-            this.hexColor2textBox.TabIndex = 15;
-            this.hexColor2textBox.Text = "#000000";
-            this.hexColor2textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.hexColor2textBox_KeyDown);
-            // 
-            // bColor2textBox
-            // 
-            this.bColor2textBox.Location = new System.Drawing.Point(6, 71);
-            this.bColor2textBox.Name = "bColor2textBox";
-            this.bColor2textBox.Size = new System.Drawing.Size(100, 20);
-            this.bColor2textBox.TabIndex = 13;
-            this.bColor2textBox.Text = "0";
-            this.bColor2textBox.TextChanged += new System.EventHandler(this.Color2TextBox_TextChanged);
-            // 
-            // gColor2textBox
-            // 
-            this.gColor2textBox.Location = new System.Drawing.Point(6, 45);
-            this.gColor2textBox.Name = "gColor2textBox";
-            this.gColor2textBox.Size = new System.Drawing.Size(100, 20);
-            this.gColor2textBox.TabIndex = 12;
-            this.gColor2textBox.Text = "0";
-            this.gColor2textBox.TextChanged += new System.EventHandler(this.Color2TextBox_TextChanged);
-            // 
-            // rColor2textBox
-            // 
-            this.rColor2textBox.Location = new System.Drawing.Point(6, 19);
-            this.rColor2textBox.Name = "rColor2textBox";
-            this.rColor2textBox.Size = new System.Drawing.Size(100, 20);
-            this.rColor2textBox.TabIndex = 11;
-            this.rColor2textBox.Text = "0";
-            this.rColor2textBox.TextChanged += new System.EventHandler(this.Color2TextBox_TextChanged);
-            // 
-            // color2PanelRGB
-            // 
-            this.color2PanelRGB.Location = new System.Drawing.Point(144, 22);
-            this.color2PanelRGB.Name = "color2PanelRGB";
-            this.color2PanelRGB.Size = new System.Drawing.Size(95, 95);
-            this.color2PanelRGB.TabIndex = 10;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.panel3);
@@ -388,41 +198,78 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.color1PickButton);
-            this.groupBox2.Controls.Add(this.color1PanelRGB);
-            this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.rColor1textBox);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.gColor1textBox);
+            this.groupBox2.Controls.Add(this.Color2NumericUpDown);
+            this.groupBox2.Controls.Add(this.Color1NumericUpDown);
             this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.bColor1textBox);
             this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.hexColor1textBox);
+            this.groupBox2.Controls.Add(this.panel1);
             this.groupBox2.Location = new System.Drawing.Point(225, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(245, 162);
+            this.groupBox2.Size = new System.Drawing.Size(497, 162);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Color 1";
+            this.groupBox2.Text = "Color";
             // 
-            // groupBox3
+            // HelpButton
             // 
-            this.groupBox3.Controls.Add(this.color2PickButton);
-            this.groupBox3.Controls.Add(this.color2PanelRGB);
-            this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.rColor2textBox);
-            this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Controls.Add(this.gColor2textBox);
-            this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.bColor2textBox);
-            this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.hexColor2textBox);
-            this.groupBox3.Location = new System.Drawing.Point(476, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(245, 162);
-            this.groupBox3.TabIndex = 25;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Color 2";
+            this.HelpButton.Location = new System.Drawing.Point(6, 69);
+            this.HelpButton.Name = "HelpButton";
+            this.HelpButton.Size = new System.Drawing.Size(87, 23);
+            this.HelpButton.TabIndex = 41;
+            this.HelpButton.Text = "?";
+            this.HelpButton.UseVisualStyleBackColor = true;
+            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
+            // 
+            // Color2NumericUpDown
+            // 
+            this.Color2NumericUpDown.Location = new System.Drawing.Point(73, 95);
+            this.Color2NumericUpDown.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.Color2NumericUpDown.Name = "Color2NumericUpDown";
+            this.Color2NumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.Color2NumericUpDown.TabIndex = 40;
+            // 
+            // Color1NumericUpDown
+            // 
+            this.Color1NumericUpDown.Location = new System.Drawing.Point(73, 47);
+            this.Color1NumericUpDown.Maximum = new decimal(new int[] {
+            127,
+            0,
+            0,
+            0});
+            this.Color1NumericUpDown.Name = "Color1NumericUpDown";
+            this.Color1NumericUpDown.Size = new System.Drawing.Size(120, 20);
+            this.Color1NumericUpDown.TabIndex = 39;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(27, 97);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(40, 13);
+            this.label4.TabIndex = 38;
+            this.label4.Text = "Color 2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(27, 50);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(40, 13);
+            this.label3.TabIndex = 36;
+            this.label3.Text = "Color 1";
+            // 
+            // panel1
+            // 
+            this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.panel1.Location = new System.Drawing.Point(206, 19);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(285, 137);
+            this.panel1.TabIndex = 34;
             // 
             // groupBox4
             // 
@@ -481,25 +328,14 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.TransitionListBox);
             this.groupBox5.Controls.Add(this.SceneCheckBox);
             this.groupBox5.Controls.Add(this.SceneListBox);
             this.groupBox5.Location = new System.Drawing.Point(231, 180);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(259, 162);
+            this.groupBox5.Size = new System.Drawing.Size(133, 162);
             this.groupBox5.TabIndex = 28;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Scene";
-            // 
-            // TransitionListBox
-            // 
-            this.TransitionListBox.FormattingEnabled = true;
-            this.TransitionListBox.Items.AddRange(new object[] {
-            "Default"});
-            this.TransitionListBox.Location = new System.Drawing.Point(133, 43);
-            this.TransitionListBox.Name = "TransitionListBox";
-            this.TransitionListBox.Size = new System.Drawing.Size(120, 108);
-            this.TransitionListBox.TabIndex = 28;
             // 
             // SceneCheckBox
             // 
@@ -521,7 +357,7 @@
             this.groupBox6.Controls.Add(this.VisibilityONCheckBox);
             this.groupBox6.Controls.Add(this.MediaCheckBox);
             this.groupBox6.Controls.Add(this.MediaTabControl);
-            this.groupBox6.Location = new System.Drawing.Point(496, 180);
+            this.groupBox6.Location = new System.Drawing.Point(370, 181);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(333, 162);
             this.groupBox6.TabIndex = 29;
@@ -643,7 +479,7 @@
             this.groupBox8.Controls.Add(this.SoundCheckBox);
             this.groupBox8.Location = new System.Drawing.Point(153, 349);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(412, 162);
+            this.groupBox8.Size = new System.Drawing.Size(443, 162);
             this.groupBox8.TabIndex = 31;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Sound";
@@ -675,7 +511,7 @@
             this.VolumeTrackBar.Location = new System.Drawing.Point(87, 73);
             this.VolumeTrackBar.Maximum = 100;
             this.VolumeTrackBar.Name = "VolumeTrackBar";
-            this.VolumeTrackBar.Size = new System.Drawing.Size(318, 45);
+            this.VolumeTrackBar.Size = new System.Drawing.Size(350, 45);
             this.VolumeTrackBar.TabIndex = 13;
             this.VolumeTrackBar.TickFrequency = 5;
             this.VolumeTrackBar.Value = 100;
@@ -683,7 +519,7 @@
             // 
             // TestSoundButton
             // 
-            this.TestSoundButton.Location = new System.Drawing.Point(331, 133);
+            this.TestSoundButton.Location = new System.Drawing.Point(362, 133);
             this.TestSoundButton.Name = "TestSoundButton";
             this.TestSoundButton.Size = new System.Drawing.Size(75, 23);
             this.TestSoundButton.TabIndex = 12;
@@ -695,7 +531,7 @@
             // 
             this.FileTextBox.Location = new System.Drawing.Point(87, 45);
             this.FileTextBox.Name = "FileTextBox";
-            this.FileTextBox.Size = new System.Drawing.Size(318, 20);
+            this.FileTextBox.Size = new System.Drawing.Size(350, 20);
             this.FileTextBox.TabIndex = 11;
             // 
             // FileButton
@@ -732,25 +568,35 @@
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.ClearButton);
-            this.groupBox9.Location = new System.Drawing.Point(728, 12);
+            this.groupBox9.Location = new System.Drawing.Point(602, 349);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(101, 162);
             this.groupBox9.TabIndex = 33;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "DANGER ZONE";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.HelpButton);
+            this.groupBox3.Location = new System.Drawing.Point(729, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(99, 162);
+            this.groupBox3.TabIndex = 42;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Help";
+            // 
             // SetForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(840, 524);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cancelButton);
@@ -765,8 +611,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Color2NumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Color1NumericUpDown)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -780,6 +626,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.VolumeNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VolumeTrackBar)).EndInit();
             this.groupBox9.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -795,30 +642,9 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.CheckBox FadeLightCheckBox;
         private System.Windows.Forms.CheckBox BlinkLightCheckBox;
-        private System.Windows.Forms.Button color1PickButton;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox hexColor1textBox;
-        private System.Windows.Forms.TextBox bColor1textBox;
-        private System.Windows.Forms.TextBox gColor1textBox;
-        private System.Windows.Forms.TextBox rColor1textBox;
-        private System.Windows.Forms.Panel color1PanelRGB;
         private System.Windows.Forms.ColorDialog colorDialog1;
-        private System.Windows.Forms.Button color2PickButton;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox hexColor2textBox;
-        private System.Windows.Forms.TextBox bColor2textBox;
-        private System.Windows.Forms.TextBox gColor2textBox;
-        private System.Windows.Forms.TextBox rColor2textBox;
-        private System.Windows.Forms.Panel color2PanelRGB;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox VirtualCamCheckBox;
         private System.Windows.Forms.CheckBox RecCheckBox;
@@ -837,7 +663,6 @@
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.CheckBox MuteCheckBox;
         private System.Windows.Forms.ListBox MuteListBox;
-        private System.Windows.Forms.ListBox TransitionListBox;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.CheckBox SoundCheckBox;
         private System.Windows.Forms.TextBox FileTextBox;
@@ -848,5 +673,12 @@
         private System.Windows.Forms.NumericUpDown VolumeNumericUpDown;
         private System.Windows.Forms.Button ClearButton;
         private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown Color2NumericUpDown;
+        private System.Windows.Forms.NumericUpDown Color1NumericUpDown;
+        private System.Windows.Forms.Button HelpButton;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }

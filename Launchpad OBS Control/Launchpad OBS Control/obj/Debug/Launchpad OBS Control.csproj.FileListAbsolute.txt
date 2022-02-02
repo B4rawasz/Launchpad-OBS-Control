@@ -16,3 +16,4 @@ D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\L
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad_OBS_Control.SetForm.resources
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Newtonsoft.Json.dll
 D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\bin\Debug\Newtonsoft.Json.xml
+D:\Code\MIDI\Launchpad OBS Control\Launchpad-OBS-control\Launchpad OBS Control\Launchpad OBS Control\obj\Debug\Launchpad_OBS_Control.HelpForm.resources
