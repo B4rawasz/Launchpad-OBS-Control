@@ -242,15 +242,17 @@ namespace Launchpad_OBS_Control
 
         private void ClearButton_Click(object sender, EventArgs e)
         {
+            string pathSet = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\json\set\pad" + padID + "set.json");
+            string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\json\pad" + padID + ".json");
             try
             {
                 DialogResult dr = MessageBox.Show("Are you sure ?", "!!!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if(dr == DialogResult.Yes)
                 {
-                    sw = new StreamWriter("./json/set/pad" + padID + "set.json");
+                    sw = new StreamWriter(pathSet);
                     sw.Write("");
                     sw.Close();
-                    sw = new StreamWriter("./json/pad" + padID + ".json");
+                    sw = new StreamWriter(path);
                     sw.Write("");
                     sw.Close();
                     MessageBox.Show("Settings cleared", "OK", MessageBoxButtons.OK, MessageBoxIcon.Information);

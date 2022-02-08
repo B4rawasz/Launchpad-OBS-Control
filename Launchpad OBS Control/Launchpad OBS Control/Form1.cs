@@ -20,7 +20,8 @@ using WebSocketSharp;
 using WMPLib;
 //Newtonsoft.Json;
 using Newtonsoft.Json;
-
+//
+using System.Threading;
 
 namespace Launchpad_OBS_Control
 {
@@ -113,6 +114,8 @@ namespace Launchpad_OBS_Control
             {"Logo", 99 }
         };
 
+        List<CollorClass> collorList = new List<CollorClass>();
+
         List<StartStopListClass> padsRequests = new List<StartStopListClass>(); //Start Stop Rec/Stream
         List<SceneListClass> padsScenes = new List<SceneListClass>(); //Set Scene
         List<MuteListClass> padsMute = new List<MuteListClass>(); //Togle Mute
@@ -132,12 +135,15 @@ namespace Launchpad_OBS_Control
         List<SourceClass> soundSourceList = new List<SourceClass>();
         List<TransitionClass> transitionList = new List<TransitionClass>();
 
-        int[] obsPads = new int[99];
-        int[] soundPads = new int[99];
+        int[] obsPads = new int[100];
+        int[] soundPads = new int[100];
 
-        int[,] padColorSettingsON = new int[99, 1];
-        int[,] padColorSettingsOFF = new int[99, 1];
-        int[,] padColorSettingsMode = new int[99, 1]; //0-static, 1-blink, 2-fade
+        int[,] padColorSettingsON = new int[100, 1];
+        int[,] padColorSettingsOFF = new int[100, 1];
+        int[,] padColorSettingsMode = new int[100, 1]; //0-off, 1-static, 2-blink, 3-fade
+
+        LaunchpadButton[] buttonList = new LaunchpadButton[100];
+        int[] onOff = new int[100];
 
         /*************************************************************************************************/
 
@@ -153,7 +159,9 @@ namespace Launchpad_OBS_Control
 
         WebSocket ws;
 
-/*************************************************************************************************/
+        Thread t;
+
+        /*************************************************************************************************/
 
         //Program
         public Form1()
@@ -163,6 +171,16 @@ namespace Launchpad_OBS_Control
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            foreach(LaunchpadButton b in GetAll(this, typeof(LaunchpadButton)))
+            {
+                buttonList[b.ID] = b;
+            }
+
+            loadCollorList();
+
+            t = new Thread(colors);
+            t.Start();
+
             string dirjson = "./json";
             string dirset = "./json/set";
 
@@ -228,7 +246,7 @@ namespace Launchpad_OBS_Control
             }
         }
 
-        private void connectButton_Click(object sender, EventArgs e)
+        private async void connectButton_Click(object sender, EventArgs e)
         {
             if (midiInBox.Enabled)
             {
@@ -470,14 +488,14 @@ namespace Launchpad_OBS_Control
                     {
                         if(mode.Groups[0].Value == "Static")
                         {
-                            padColorSettingsMode[i, 0] = 0;
+                            padColorSettingsMode[i, 0] = 1;
                         }else if(mode.Groups[0].Value == "Blink")
                         {
-                            padColorSettingsMode[i, 0] = 1;
+                            padColorSettingsMode[i, 0] = 2;
                         }
                         else if(mode.Groups[0].Value == "Fade")
                         {
-                            padColorSettingsMode[i, 0] = 2;
+                            padColorSettingsMode[i, 0] = 3;
                         }
                     }
                     Match match = Regex.Match(settings, "(?<=\"ColorON\":\").*?(?=\")", RegexOptions.Singleline);
@@ -713,6 +731,11 @@ namespace Launchpad_OBS_Control
                 outputDevice.SendSysEx(reload);
             }
 
+            for(int i = 0; i < 100; i++)
+            {
+                padColorSettingsMode[i, 0] = 0;
+            }
+
             outputDevice.Close();
 
             LoadSettings();
@@ -775,6 +798,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -782,6 +806,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -807,6 +832,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -814,6 +840,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -840,6 +867,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -847,6 +875,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -871,6 +900,7 @@ namespace Launchpad_OBS_Control
                         {
                             outputDevice.Open();
                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                            onOff[s.id] = 1;
                             outputDevice.SendSysEx(stat);
                             outputDevice.Close();
                         }catch (Exception ex)
@@ -898,6 +928,7 @@ namespace Launchpad_OBS_Control
                                 {
                                     outputDevice.Open();
                                     byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                    onOff[s.id] = 0;
                                     outputDevice.SendSysEx(stat);
                                     outputDevice.Close();
                                 }
@@ -911,6 +942,7 @@ namespace Launchpad_OBS_Control
                                 {
                                     outputDevice.Open();
                                     byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    onOff[s.id] = 1;
                                     outputDevice.SendSysEx(stat);
                                     outputDevice.Close();
                                 }
@@ -992,6 +1024,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -1005,6 +1038,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -1018,6 +1052,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -1031,6 +1066,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -1044,6 +1080,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
                             }
@@ -1057,6 +1094,7 @@ namespace Launchpad_OBS_Control
                             {
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                             }
@@ -1075,6 +1113,7 @@ namespace Launchpad_OBS_Control
                                     {
                                         outputDevice.Open();
                                         byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                        onOff[s.id] = 0;
                                         outputDevice.SendSysEx(stat);
                                         outputDevice.Close();
                                     }
@@ -1097,6 +1136,7 @@ namespace Launchpad_OBS_Control
                                     {
                                         outputDevice.Open();
                                         byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                        onOff[s.id] = 1;
                                         outputDevice.SendSysEx(stat);
                                         outputDevice.Close();
                                     }
@@ -1124,6 +1164,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            onOff[s.id] = 1;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1137,6 +1178,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                            onOff[s.id] = 0;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1156,6 +1198,7 @@ namespace Launchpad_OBS_Control
                                 {
                                     outputDevice.Open();
                                     byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                    onOff[s.id] = 1;
                                     outputDevice.SendSysEx(blink);
                                     outputDevice.Close();
                                 }
@@ -1173,6 +1216,7 @@ namespace Launchpad_OBS_Control
                                 {
                                     outputDevice.Open();
                                     byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                    onOff[s.id] = 0;
                                     outputDevice.SendSysEx(stat);
                                     outputDevice.Close();
                                 }
@@ -1190,6 +1234,7 @@ namespace Launchpad_OBS_Control
                                 {
                                     outputDevice.Open();
                                     byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                    onOff[s.id] = 0;
                                     outputDevice.SendSysEx(stat);
                                     outputDevice.Close();
                                 }
@@ -1212,6 +1257,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            onOff[s.id] = 1;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1222,6 +1268,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            onOff[s.id] = 1;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1235,6 +1282,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                            onOff[s.id] = 0;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1245,6 +1293,7 @@ namespace Launchpad_OBS_Control
                                         {
                                             outputDevice.Open();
                                             byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                            onOff[s.id] = 0;
                                             outputDevice.SendSysEx(stat);
                                             outputDevice.Close();
                                         }
@@ -1309,6 +1358,7 @@ namespace Launchpad_OBS_Control
                     {
                         sr = new StreamReader(path);
                         string message = sr.ReadToEnd();
+                        sr.Close();
                         ws.Send(message);
 
                         foreach (var launchpadButton in this.Controls.OfType<LaunchpadButton>())
@@ -1322,6 +1372,10 @@ namespace Launchpad_OBS_Control
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.Message);
+                        if(sr != null)
+                        {
+                            sr.Close();
+                        }
                     }
                 }
 
@@ -1352,6 +1406,7 @@ namespace Launchpad_OBS_Control
 
                                 outputDevice.Open();
                                 byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                onOff[s.id] = 1;
                                 outputDevice.SendSysEx(blink);
                                 outputDevice.Close();
 
@@ -1362,6 +1417,7 @@ namespace Launchpad_OBS_Control
  
                                 outputDevice.Open();
                                 byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], 247 };
+                                onOff[s.id] = 0;
                                 outputDevice.SendSysEx(stat);
                                 outputDevice.Close();
                                 
@@ -1429,6 +1485,195 @@ namespace Launchpad_OBS_Control
             {
             }
             setform.Dispose();
+        }
+        /*************************************************************************************************/
+        public IEnumerable<Control> GetAll(Control control, Type type)
+        {
+            var controls = control.Controls.Cast<Control>();
+
+            return controls.SelectMany(ctrl => GetAll(ctrl, type))
+                                      .Concat(controls)
+                                      .Where(c => c.GetType() == type);
+        }
+
+        public void colors()
+        {
+            while (true)
+            {
+                foreach(LaunchpadButton button in buttonList)
+                {
+                    if (button != null)
+                    {
+                        if (padColorSettingsMode[button.ID, 0] == 1)
+                        {
+                            if(onOff[button.ID] == 1)
+                            {
+                                button.BackColor = collorList.Find(x => x.color == padColorSettingsON[button.ID, 0]).rgb;
+                            }
+                            else if (onOff[button.ID] == 0)
+                            {
+                                button.BackColor = collorList.Find(x => x.color == padColorSettingsOFF[button.ID, 0]).rgb;
+                            }
+                        }
+                        else if(padColorSettingsMode[button.ID, 0] == 2 || padColorSettingsMode[button.ID, 0] == 3)
+                        {
+                            if (onOff[button.ID] == 1)
+                            {
+                                button.BackColor = button.BackColor == collorList.Find(x => x.color == padColorSettingsON[button.ID, 0]).rgb ? collorList.Find(x => x.color == padColorSettingsOFF[button.ID, 0]).rgb : collorList.Find(x => x.color == padColorSettingsON[button.ID, 0]).rgb;
+                            }
+                            else if (onOff[button.ID] == 0)
+                            {
+                                button.BackColor = collorList.Find(x => x.color == padColorSettingsOFF[button.ID, 0]).rgb;
+                            }
+                        }
+                        else
+                        {
+                            button.BackColor = Color.LightGray;
+                        }
+
+                        if(padsRenderON.Exists(x => x.id == button.ID) || padsRenderOFF.Exists(x => x.id == button.ID) || padsStopMedia.Exists(x => x.id == button.ID) || padsRestartMedia.Exists(x => x.id == button.ID))
+                        {
+                            button.BackColor = collorList.Find(x => x.color == padColorSettingsON[button.ID, 0]).rgb;
+                        }
+                    }
+                }
+                Thread.Sleep(500);
+            }
+        }
+
+        /*************************************************************************************************/
+        //collor translate
+
+        void loadCollorList()
+        {
+            collorList.Add(new CollorClass() { color = 0, rgb = Color.FromArgb(97,97,97) });
+            collorList.Add(new CollorClass() { color = 1, rgb = Color.FromArgb(179, 179, 179) });
+            collorList.Add(new CollorClass() { color = 2, rgb = Color.FromArgb(211, 211, 211) });
+            collorList.Add(new CollorClass() { color = 3, rgb = Color.FromArgb(255, 255, 255) });
+            collorList.Add(new CollorClass() { color = 4, rgb = Color.FromArgb(255, 179, 179) });
+            collorList.Add(new CollorClass() { color = 5, rgb = Color.FromArgb(255, 97, 97) });
+            collorList.Add(new CollorClass() { color = 6, rgb = Color.FromArgb(221, 97, 97) });
+            collorList.Add(new CollorClass() { color = 7, rgb = Color.FromArgb(179, 97, 97) });
+            collorList.Add(new CollorClass() { color = 8, rgb = Color.FromArgb(255, 243, 213) });
+            collorList.Add(new CollorClass() { color = 9, rgb = Color.FromArgb(255, 179, 97) });
+            collorList.Add(new CollorClass() { color = 10, rgb = Color.FromArgb(221, 140, 97) });
+            collorList.Add(new CollorClass() { color = 11, rgb = Color.FromArgb(179, 118, 97) });
+            collorList.Add(new CollorClass() { color = 12, rgb = Color.FromArgb(255, 238, 161) });
+            collorList.Add(new CollorClass() { color = 13, rgb = Color.FromArgb(255, 255, 97) });
+            collorList.Add(new CollorClass() { color = 14, rgb = Color.FromArgb(221, 221, 97) });
+            collorList.Add(new CollorClass() { color = 15, rgb = Color.FromArgb(179, 179, 97) });
+            collorList.Add(new CollorClass() { color = 16, rgb = Color.FromArgb(221, 255, 161) });
+            collorList.Add(new CollorClass() { color = 17, rgb = Color.FromArgb(194, 255, 97) });
+            collorList.Add(new CollorClass() { color = 18, rgb = Color.FromArgb(161, 221, 97) });
+            collorList.Add(new CollorClass() { color = 19, rgb = Color.FromArgb(129, 179, 97) });
+            collorList.Add(new CollorClass() { color = 20, rgb = Color.FromArgb(194, 255, 179) });
+            collorList.Add(new CollorClass() { color = 21, rgb = Color.FromArgb(97, 255, 97) });
+            collorList.Add(new CollorClass() { color = 22, rgb = Color.FromArgb(97, 221, 97) });
+            collorList.Add(new CollorClass() { color = 23, rgb = Color.FromArgb(97, 179, 97) });
+            collorList.Add(new CollorClass() { color = 24, rgb = Color.FromArgb(194, 255, 194) });
+            collorList.Add(new CollorClass() { color = 25, rgb = Color.FromArgb(97, 255, 140) });
+            collorList.Add(new CollorClass() { color = 26, rgb = Color.FromArgb(97, 221, 118) });
+            collorList.Add(new CollorClass() { color = 27, rgb = Color.FromArgb(97, 179, 107) });
+            collorList.Add(new CollorClass() { color = 28, rgb = Color.FromArgb(194, 255, 204) });
+            collorList.Add(new CollorClass() { color = 29, rgb = Color.FromArgb(97, 255, 204) });
+            collorList.Add(new CollorClass() { color = 30, rgb = Color.FromArgb(97, 221, 161) });
+            collorList.Add(new CollorClass() { color = 31, rgb = Color.FromArgb(97, 179, 129) });
+            collorList.Add(new CollorClass() { color = 32, rgb = Color.FromArgb(194, 255, 243) });
+            collorList.Add(new CollorClass() { color = 33, rgb = Color.FromArgb(97, 255, 233) });
+            collorList.Add(new CollorClass() { color = 34, rgb = Color.FromArgb(97, 221, 194) });
+            collorList.Add(new CollorClass() { color = 35, rgb = Color.FromArgb(97, 179, 150) });
+            collorList.Add(new CollorClass() { color = 36, rgb = Color.FromArgb(194, 243, 255) });
+            collorList.Add(new CollorClass() { color = 37, rgb = Color.FromArgb(97, 238, 255) });
+            collorList.Add(new CollorClass() { color = 38, rgb = Color.FromArgb(97, 199, 221) });
+            collorList.Add(new CollorClass() { color = 39, rgb = Color.FromArgb(97, 161, 179) });
+            collorList.Add(new CollorClass() { color = 40, rgb = Color.FromArgb(194, 221, 255) });
+            collorList.Add(new CollorClass() { color = 41, rgb = Color.FromArgb(97, 199, 255) });
+            collorList.Add(new CollorClass() { color = 42, rgb = Color.FromArgb(97, 161, 221) });
+            collorList.Add(new CollorClass() { color = 43, rgb = Color.FromArgb(97, 129, 179) });
+            collorList.Add(new CollorClass() { color = 44, rgb = Color.FromArgb(161, 140, 255) });
+            collorList.Add(new CollorClass() { color = 45, rgb = Color.FromArgb(97, 97, 255) });
+            collorList.Add(new CollorClass() { color = 46, rgb = Color.FromArgb(97, 97, 221) });
+            collorList.Add(new CollorClass() { color = 47, rgb = Color.FromArgb(97, 97, 179) });
+            collorList.Add(new CollorClass() { color = 48, rgb = Color.FromArgb(204, 179, 255) });
+            collorList.Add(new CollorClass() { color = 49, rgb = Color.FromArgb(161, 97, 255) });
+            collorList.Add(new CollorClass() { color = 50, rgb = Color.FromArgb(129, 97, 221) });
+            collorList.Add(new CollorClass() { color = 51, rgb = Color.FromArgb(118, 97, 179) });
+            collorList.Add(new CollorClass() { color = 52, rgb = Color.FromArgb(255, 179, 255) });
+            collorList.Add(new CollorClass() { color = 53, rgb = Color.FromArgb(255, 97, 255) });
+            collorList.Add(new CollorClass() { color = 54, rgb = Color.FromArgb(221, 97, 221) });
+            collorList.Add(new CollorClass() { color = 55, rgb = Color.FromArgb(179, 97, 179) });
+            collorList.Add(new CollorClass() { color = 56, rgb = Color.FromArgb(255, 179, 213) });
+            collorList.Add(new CollorClass() { color = 57, rgb = Color.FromArgb(255, 97, 194) });
+            collorList.Add(new CollorClass() { color = 58, rgb = Color.FromArgb(221, 97, 161) });
+            collorList.Add(new CollorClass() { color = 59, rgb = Color.FromArgb(179, 97, 140) });
+            collorList.Add(new CollorClass() { color = 60, rgb = Color.FromArgb(255, 118, 97) });
+            collorList.Add(new CollorClass() { color = 61, rgb = Color.FromArgb(233, 179, 97) });
+            collorList.Add(new CollorClass() { color = 62, rgb = Color.FromArgb(221, 194, 97) });
+            collorList.Add(new CollorClass() { color = 63, rgb = Color.FromArgb(161, 161, 97) });
+            collorList.Add(new CollorClass() { color = 64, rgb = Color.FromArgb(97, 179, 97) });
+            collorList.Add(new CollorClass() { color = 65, rgb = Color.FromArgb(97, 179, 140) });
+            collorList.Add(new CollorClass() { color = 66, rgb = Color.FromArgb(97, 140, 213) });
+            collorList.Add(new CollorClass() { color = 67, rgb = Color.FromArgb(97, 97, 255) });
+            collorList.Add(new CollorClass() { color = 68, rgb = Color.FromArgb(97, 179, 179) });
+            collorList.Add(new CollorClass() { color = 69, rgb = Color.FromArgb(140, 97, 243) });
+            collorList.Add(new CollorClass() { color = 70, rgb = Color.FromArgb(204, 179, 194) });
+            collorList.Add(new CollorClass() { color = 71, rgb = Color.FromArgb(140, 118, 129) });
+            collorList.Add(new CollorClass() { color = 72, rgb = Color.FromArgb(255, 97, 97) });
+            collorList.Add(new CollorClass() { color = 73, rgb = Color.FromArgb(243, 255, 161) });
+            collorList.Add(new CollorClass() { color = 74, rgb = Color.FromArgb(238, 252, 97) });
+            collorList.Add(new CollorClass() { color = 75, rgb = Color.FromArgb(204, 255, 97) });
+            collorList.Add(new CollorClass() { color = 76, rgb = Color.FromArgb(118, 221, 97) });
+            collorList.Add(new CollorClass() { color = 77, rgb = Color.FromArgb(97, 255, 204) });
+            collorList.Add(new CollorClass() { color = 78, rgb = Color.FromArgb(97, 233, 255) });
+            collorList.Add(new CollorClass() { color = 79, rgb = Color.FromArgb(97, 161, 255) });
+            collorList.Add(new CollorClass() { color = 80, rgb = Color.FromArgb(140, 97, 255) });
+            collorList.Add(new CollorClass() { color = 81, rgb = Color.FromArgb(204, 97, 252) });
+            collorList.Add(new CollorClass() { color = 82, rgb = Color.FromArgb(238, 140, 221) });
+            collorList.Add(new CollorClass() { color = 83, rgb = Color.FromArgb(161, 118, 97) });
+            collorList.Add(new CollorClass() { color = 84, rgb = Color.FromArgb(255, 161, 97) });
+            collorList.Add(new CollorClass() { color = 85, rgb = Color.FromArgb(221, 249, 97) });
+            collorList.Add(new CollorClass() { color = 86, rgb = Color.FromArgb(213, 255, 140) });
+            collorList.Add(new CollorClass() { color = 87, rgb = Color.FromArgb(97, 255, 97) });
+            collorList.Add(new CollorClass() { color = 88, rgb = Color.FromArgb(179, 255, 161) });
+            collorList.Add(new CollorClass() { color = 89, rgb = Color.FromArgb(204, 252, 213) });
+            collorList.Add(new CollorClass() { color = 90, rgb = Color.FromArgb(179, 255, 246) });
+            collorList.Add(new CollorClass() { color = 91, rgb = Color.FromArgb(204, 228, 255) });
+            collorList.Add(new CollorClass() { color = 92, rgb = Color.FromArgb(161, 194, 246) });
+            collorList.Add(new CollorClass() { color = 93, rgb = Color.FromArgb(213, 194, 249) });
+            collorList.Add(new CollorClass() { color = 94, rgb = Color.FromArgb(249, 140, 255) });
+            collorList.Add(new CollorClass() { color = 95, rgb = Color.FromArgb(255, 97, 204) });
+            collorList.Add(new CollorClass() { color = 96, rgb = Color.FromArgb(255, 194, 97) });
+            collorList.Add(new CollorClass() { color = 97, rgb = Color.FromArgb(243, 238, 97) });
+            collorList.Add(new CollorClass() { color = 98, rgb = Color.FromArgb(228, 255, 97) });
+            collorList.Add(new CollorClass() { color = 99, rgb = Color.FromArgb(221, 204, 97) });
+            collorList.Add(new CollorClass() { color = 100, rgb = Color.FromArgb(179, 161, 97) });
+            collorList.Add(new CollorClass() { color = 101, rgb = Color.FromArgb(97, 186, 118) });
+            collorList.Add(new CollorClass() { color = 102, rgb = Color.FromArgb(118, 194, 140) });
+            collorList.Add(new CollorClass() { color = 103, rgb = Color.FromArgb(129, 129, 161) });
+            collorList.Add(new CollorClass() { color = 104, rgb = Color.FromArgb(129, 140, 204) });
+            collorList.Add(new CollorClass() { color = 105, rgb = Color.FromArgb(204, 170, 129) });
+            collorList.Add(new CollorClass() { color = 106, rgb = Color.FromArgb(221, 97, 97) });
+            collorList.Add(new CollorClass() { color = 107, rgb = Color.FromArgb(249, 179, 161) });
+            collorList.Add(new CollorClass() { color = 108, rgb = Color.FromArgb(249, 186, 118) });
+            collorList.Add(new CollorClass() { color = 109, rgb = Color.FromArgb(255, 243, 140) });
+            collorList.Add(new CollorClass() { color = 110, rgb = Color.FromArgb(233, 249, 161) });
+            collorList.Add(new CollorClass() { color = 111, rgb = Color.FromArgb(213, 238, 118) });
+            collorList.Add(new CollorClass() { color = 112, rgb = Color.FromArgb(129, 129, 161) });
+            collorList.Add(new CollorClass() { color = 113, rgb = Color.FromArgb(249, 249, 213) });
+            collorList.Add(new CollorClass() { color = 114, rgb = Color.FromArgb(221, 252, 228) });
+            collorList.Add(new CollorClass() { color = 115, rgb = Color.FromArgb(233, 233, 255) });
+            collorList.Add(new CollorClass() { color = 116, rgb = Color.FromArgb(228, 213, 255) });
+            collorList.Add(new CollorClass() { color = 117, rgb = Color.FromArgb(179, 179, 179) });
+            collorList.Add(new CollorClass() { color = 118, rgb = Color.FromArgb(213, 213, 213) });
+            collorList.Add(new CollorClass() { color = 119, rgb = Color.FromArgb(249, 255, 255) });
+            collorList.Add(new CollorClass() { color = 120, rgb = Color.FromArgb(233, 97, 97) });
+            collorList.Add(new CollorClass() { color = 121, rgb = Color.FromArgb(170, 97, 97) });
+            collorList.Add(new CollorClass() { color = 122, rgb = Color.FromArgb(129, 246, 97) });
+            collorList.Add(new CollorClass() { color = 123, rgb = Color.FromArgb(97, 179, 97) });
+            collorList.Add(new CollorClass() { color = 124, rgb = Color.FromArgb(243, 238, 97) });
+            collorList.Add(new CollorClass() { color = 125, rgb = Color.FromArgb(179, 161, 97) });
+            collorList.Add(new CollorClass() { color = 126, rgb = Color.FromArgb(238, 194, 97) });
+            collorList.Add(new CollorClass() { color = 127, rgb = Color.FromArgb(194, 118, 97) });
         }
     }
 }
@@ -1539,4 +1784,10 @@ public class RenderOFFListClass
 {
     public string source { get; set; }
     public int id { set; get; }
+}
+
+public class CollorClass
+{
+    public int color { set; get; }
+    public Color rgb { set; get; }
 }
