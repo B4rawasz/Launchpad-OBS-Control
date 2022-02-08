@@ -11,6 +11,6 @@
 ✔️ Start/Stop Virtual Cam\
 ✔️ Switch Scene\
 ✔️ Toggle Mute\
-❌ Media Control\
-❌ Sound Board\
+✔️ Media Control\
+✔️ Sound Board\
 ❌ UI
