@@ -21,6 +21,7 @@ namespace Launchpad_OBS_Control
         List<MediaListClass> mediaList = new List<MediaListClass>();
         List<SourceClass> soundSourceList = new List<SourceClass>();
         List<TransitionClass> transitionList = new List<TransitionClass>();
+        LaunchpadButton Sender;
 
         /******************************************************************************/
 
@@ -39,7 +40,7 @@ namespace Launchpad_OBS_Control
 
         
 
-        public SetForm(int ID, List<string> scenes, List<MediaListClass> media, List<SourceClass> sound, List<TransitionClass> transition)
+        public SetForm(int ID, List<string> scenes, List<MediaListClass> media, List<SourceClass> sound, List<TransitionClass> transition, object sender)
         {
             InitializeComponent();
             padID = ID;
@@ -47,6 +48,7 @@ namespace Launchpad_OBS_Control
             mediaList = media;
             soundSourceList = sound;
             transitionList = transition;
+            Sender = sender as LaunchpadButton;
         }
 
         private void SetForm_Load(object sender, EventArgs e)

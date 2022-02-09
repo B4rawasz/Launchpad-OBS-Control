@@ -159,6 +159,7 @@
             // 
             // connectButton
             // 
+            this.connectButton.ForeColor = System.Drawing.Color.Black;
             this.connectButton.Location = new System.Drawing.Point(6, 212);
             this.connectButton.Name = "connectButton";
             this.connectButton.Size = new System.Drawing.Size(169, 23);
@@ -195,6 +196,7 @@
             this.groupBox1.Controls.Add(this.midiOutBox);
             this.groupBox1.Controls.Add(this.connectButton);
             this.groupBox1.Controls.Add(this.passwordBox);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 13);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(181, 460);
@@ -239,7 +241,7 @@
             this.launchpadButton73.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton73.ForeColor = System.Drawing.Color.White;
             this.launchpadButton73.ID = 99;
-            this.launchpadButton73.Location = new System.Drawing.Point(607, 20);
+            this.launchpadButton73.Location = new System.Drawing.Point(608, 21);
             this.launchpadButton73.Name = "launchpadButton73";
             this.launchpadButton73.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton73.TabIndex = 83;
@@ -258,7 +260,7 @@
             this.launchpadButton74.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton74.ForeColor = System.Drawing.Color.White;
             this.launchpadButton74.ID = 98;
-            this.launchpadButton74.Location = new System.Drawing.Point(556, 20);
+            this.launchpadButton74.Location = new System.Drawing.Point(557, 21);
             this.launchpadButton74.Name = "launchpadButton74";
             this.launchpadButton74.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton74.TabIndex = 82;
@@ -277,7 +279,7 @@
             this.launchpadButton75.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton75.ForeColor = System.Drawing.Color.White;
             this.launchpadButton75.ID = 97;
-            this.launchpadButton75.Location = new System.Drawing.Point(505, 20);
+            this.launchpadButton75.Location = new System.Drawing.Point(506, 21);
             this.launchpadButton75.Name = "launchpadButton75";
             this.launchpadButton75.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton75.TabIndex = 81;
@@ -296,7 +298,7 @@
             this.launchpadButton76.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton76.ForeColor = System.Drawing.Color.White;
             this.launchpadButton76.ID = 96;
-            this.launchpadButton76.Location = new System.Drawing.Point(454, 20);
+            this.launchpadButton76.Location = new System.Drawing.Point(455, 21);
             this.launchpadButton76.Name = "launchpadButton76";
             this.launchpadButton76.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton76.TabIndex = 80;
@@ -315,7 +317,7 @@
             this.launchpadButton77.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton77.ForeColor = System.Drawing.Color.White;
             this.launchpadButton77.ID = 95;
-            this.launchpadButton77.Location = new System.Drawing.Point(403, 20);
+            this.launchpadButton77.Location = new System.Drawing.Point(404, 21);
             this.launchpadButton77.Name = "launchpadButton77";
             this.launchpadButton77.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton77.TabIndex = 79;
@@ -334,7 +336,7 @@
             this.launchpadButton78.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton78.ForeColor = System.Drawing.Color.White;
             this.launchpadButton78.ID = 94;
-            this.launchpadButton78.Location = new System.Drawing.Point(352, 20);
+            this.launchpadButton78.Location = new System.Drawing.Point(353, 21);
             this.launchpadButton78.Name = "launchpadButton78";
             this.launchpadButton78.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton78.TabIndex = 78;
@@ -353,7 +355,7 @@
             this.launchpadButton79.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton79.ForeColor = System.Drawing.Color.White;
             this.launchpadButton79.ID = 93;
-            this.launchpadButton79.Location = new System.Drawing.Point(301, 20);
+            this.launchpadButton79.Location = new System.Drawing.Point(302, 21);
             this.launchpadButton79.Name = "launchpadButton79";
             this.launchpadButton79.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton79.TabIndex = 77;
@@ -372,7 +374,7 @@
             this.launchpadButton80.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton80.ForeColor = System.Drawing.Color.White;
             this.launchpadButton80.ID = 92;
-            this.launchpadButton80.Location = new System.Drawing.Point(250, 20);
+            this.launchpadButton80.Location = new System.Drawing.Point(251, 21);
             this.launchpadButton80.Name = "launchpadButton80";
             this.launchpadButton80.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton80.TabIndex = 76;
@@ -391,7 +393,7 @@
             this.launchpadButton81.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton81.ForeColor = System.Drawing.Color.White;
             this.launchpadButton81.ID = 91;
-            this.launchpadButton81.Location = new System.Drawing.Point(199, 20);
+            this.launchpadButton81.Location = new System.Drawing.Point(200, 21);
             this.launchpadButton81.Name = "launchpadButton81";
             this.launchpadButton81.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton81.TabIndex = 75;
@@ -410,7 +412,7 @@
             this.launchpadButton64.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton64.ForeColor = System.Drawing.Color.White;
             this.launchpadButton64.ID = 89;
-            this.launchpadButton64.Location = new System.Drawing.Point(607, 71);
+            this.launchpadButton64.Location = new System.Drawing.Point(608, 72);
             this.launchpadButton64.Name = "launchpadButton64";
             this.launchpadButton64.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton64.TabIndex = 74;
@@ -429,7 +431,7 @@
             this.launchpadButton65.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton65.ForeColor = System.Drawing.Color.White;
             this.launchpadButton65.ID = 88;
-            this.launchpadButton65.Location = new System.Drawing.Point(556, 71);
+            this.launchpadButton65.Location = new System.Drawing.Point(557, 72);
             this.launchpadButton65.Name = "launchpadButton65";
             this.launchpadButton65.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton65.TabIndex = 73;
@@ -448,7 +450,7 @@
             this.launchpadButton66.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton66.ForeColor = System.Drawing.Color.White;
             this.launchpadButton66.ID = 87;
-            this.launchpadButton66.Location = new System.Drawing.Point(505, 71);
+            this.launchpadButton66.Location = new System.Drawing.Point(506, 72);
             this.launchpadButton66.Name = "launchpadButton66";
             this.launchpadButton66.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton66.TabIndex = 72;
@@ -467,7 +469,7 @@
             this.launchpadButton67.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton67.ForeColor = System.Drawing.Color.White;
             this.launchpadButton67.ID = 86;
-            this.launchpadButton67.Location = new System.Drawing.Point(454, 71);
+            this.launchpadButton67.Location = new System.Drawing.Point(455, 72);
             this.launchpadButton67.Name = "launchpadButton67";
             this.launchpadButton67.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton67.TabIndex = 71;
@@ -486,7 +488,7 @@
             this.launchpadButton68.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton68.ForeColor = System.Drawing.Color.White;
             this.launchpadButton68.ID = 85;
-            this.launchpadButton68.Location = new System.Drawing.Point(403, 71);
+            this.launchpadButton68.Location = new System.Drawing.Point(404, 72);
             this.launchpadButton68.Name = "launchpadButton68";
             this.launchpadButton68.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton68.TabIndex = 70;
@@ -505,7 +507,7 @@
             this.launchpadButton69.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton69.ForeColor = System.Drawing.Color.White;
             this.launchpadButton69.ID = 84;
-            this.launchpadButton69.Location = new System.Drawing.Point(352, 71);
+            this.launchpadButton69.Location = new System.Drawing.Point(353, 72);
             this.launchpadButton69.Name = "launchpadButton69";
             this.launchpadButton69.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton69.TabIndex = 69;
@@ -524,7 +526,7 @@
             this.launchpadButton70.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton70.ForeColor = System.Drawing.Color.White;
             this.launchpadButton70.ID = 83;
-            this.launchpadButton70.Location = new System.Drawing.Point(301, 71);
+            this.launchpadButton70.Location = new System.Drawing.Point(302, 72);
             this.launchpadButton70.Name = "launchpadButton70";
             this.launchpadButton70.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton70.TabIndex = 68;
@@ -543,7 +545,7 @@
             this.launchpadButton71.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton71.ForeColor = System.Drawing.Color.White;
             this.launchpadButton71.ID = 82;
-            this.launchpadButton71.Location = new System.Drawing.Point(250, 71);
+            this.launchpadButton71.Location = new System.Drawing.Point(251, 72);
             this.launchpadButton71.Name = "launchpadButton71";
             this.launchpadButton71.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton71.TabIndex = 67;
@@ -562,7 +564,7 @@
             this.launchpadButton72.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton72.ForeColor = System.Drawing.Color.White;
             this.launchpadButton72.ID = 81;
-            this.launchpadButton72.Location = new System.Drawing.Point(199, 71);
+            this.launchpadButton72.Location = new System.Drawing.Point(200, 72);
             this.launchpadButton72.Name = "launchpadButton72";
             this.launchpadButton72.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton72.TabIndex = 66;
@@ -581,7 +583,7 @@
             this.launchpadButton55.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton55.ForeColor = System.Drawing.Color.White;
             this.launchpadButton55.ID = 79;
-            this.launchpadButton55.Location = new System.Drawing.Point(607, 122);
+            this.launchpadButton55.Location = new System.Drawing.Point(608, 123);
             this.launchpadButton55.Name = "launchpadButton55";
             this.launchpadButton55.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton55.TabIndex = 65;
@@ -600,7 +602,7 @@
             this.launchpadButton56.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton56.ForeColor = System.Drawing.Color.White;
             this.launchpadButton56.ID = 78;
-            this.launchpadButton56.Location = new System.Drawing.Point(556, 122);
+            this.launchpadButton56.Location = new System.Drawing.Point(557, 123);
             this.launchpadButton56.Name = "launchpadButton56";
             this.launchpadButton56.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton56.TabIndex = 64;
@@ -619,7 +621,7 @@
             this.launchpadButton57.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton57.ForeColor = System.Drawing.Color.White;
             this.launchpadButton57.ID = 77;
-            this.launchpadButton57.Location = new System.Drawing.Point(505, 122);
+            this.launchpadButton57.Location = new System.Drawing.Point(506, 123);
             this.launchpadButton57.Name = "launchpadButton57";
             this.launchpadButton57.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton57.TabIndex = 63;
@@ -638,7 +640,7 @@
             this.launchpadButton58.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton58.ForeColor = System.Drawing.Color.White;
             this.launchpadButton58.ID = 76;
-            this.launchpadButton58.Location = new System.Drawing.Point(454, 122);
+            this.launchpadButton58.Location = new System.Drawing.Point(455, 123);
             this.launchpadButton58.Name = "launchpadButton58";
             this.launchpadButton58.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton58.TabIndex = 62;
@@ -657,7 +659,7 @@
             this.launchpadButton59.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton59.ForeColor = System.Drawing.Color.White;
             this.launchpadButton59.ID = 75;
-            this.launchpadButton59.Location = new System.Drawing.Point(403, 122);
+            this.launchpadButton59.Location = new System.Drawing.Point(404, 123);
             this.launchpadButton59.Name = "launchpadButton59";
             this.launchpadButton59.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton59.TabIndex = 61;
@@ -676,7 +678,7 @@
             this.launchpadButton60.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton60.ForeColor = System.Drawing.Color.White;
             this.launchpadButton60.ID = 74;
-            this.launchpadButton60.Location = new System.Drawing.Point(352, 122);
+            this.launchpadButton60.Location = new System.Drawing.Point(353, 123);
             this.launchpadButton60.Name = "launchpadButton60";
             this.launchpadButton60.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton60.TabIndex = 60;
@@ -695,7 +697,7 @@
             this.launchpadButton61.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton61.ForeColor = System.Drawing.Color.White;
             this.launchpadButton61.ID = 73;
-            this.launchpadButton61.Location = new System.Drawing.Point(301, 122);
+            this.launchpadButton61.Location = new System.Drawing.Point(302, 123);
             this.launchpadButton61.Name = "launchpadButton61";
             this.launchpadButton61.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton61.TabIndex = 59;
@@ -714,7 +716,7 @@
             this.launchpadButton62.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton62.ForeColor = System.Drawing.Color.White;
             this.launchpadButton62.ID = 72;
-            this.launchpadButton62.Location = new System.Drawing.Point(250, 122);
+            this.launchpadButton62.Location = new System.Drawing.Point(251, 123);
             this.launchpadButton62.Name = "launchpadButton62";
             this.launchpadButton62.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton62.TabIndex = 58;
@@ -733,7 +735,7 @@
             this.launchpadButton63.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton63.ForeColor = System.Drawing.Color.White;
             this.launchpadButton63.ID = 71;
-            this.launchpadButton63.Location = new System.Drawing.Point(199, 122);
+            this.launchpadButton63.Location = new System.Drawing.Point(200, 123);
             this.launchpadButton63.Name = "launchpadButton63";
             this.launchpadButton63.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton63.TabIndex = 57;
@@ -752,7 +754,7 @@
             this.launchpadButton46.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton46.ForeColor = System.Drawing.Color.White;
             this.launchpadButton46.ID = 69;
-            this.launchpadButton46.Location = new System.Drawing.Point(607, 173);
+            this.launchpadButton46.Location = new System.Drawing.Point(608, 174);
             this.launchpadButton46.Name = "launchpadButton46";
             this.launchpadButton46.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton46.TabIndex = 56;
@@ -771,7 +773,7 @@
             this.launchpadButton47.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton47.ForeColor = System.Drawing.Color.White;
             this.launchpadButton47.ID = 68;
-            this.launchpadButton47.Location = new System.Drawing.Point(556, 173);
+            this.launchpadButton47.Location = new System.Drawing.Point(557, 174);
             this.launchpadButton47.Name = "launchpadButton47";
             this.launchpadButton47.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton47.TabIndex = 55;
@@ -790,7 +792,7 @@
             this.launchpadButton48.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton48.ForeColor = System.Drawing.Color.White;
             this.launchpadButton48.ID = 67;
-            this.launchpadButton48.Location = new System.Drawing.Point(505, 173);
+            this.launchpadButton48.Location = new System.Drawing.Point(506, 174);
             this.launchpadButton48.Name = "launchpadButton48";
             this.launchpadButton48.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton48.TabIndex = 54;
@@ -809,7 +811,7 @@
             this.launchpadButton49.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton49.ForeColor = System.Drawing.Color.White;
             this.launchpadButton49.ID = 66;
-            this.launchpadButton49.Location = new System.Drawing.Point(454, 173);
+            this.launchpadButton49.Location = new System.Drawing.Point(455, 174);
             this.launchpadButton49.Name = "launchpadButton49";
             this.launchpadButton49.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton49.TabIndex = 53;
@@ -828,7 +830,7 @@
             this.launchpadButton50.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton50.ForeColor = System.Drawing.Color.White;
             this.launchpadButton50.ID = 65;
-            this.launchpadButton50.Location = new System.Drawing.Point(403, 173);
+            this.launchpadButton50.Location = new System.Drawing.Point(404, 174);
             this.launchpadButton50.Name = "launchpadButton50";
             this.launchpadButton50.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton50.TabIndex = 52;
@@ -847,7 +849,7 @@
             this.launchpadButton51.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton51.ForeColor = System.Drawing.Color.White;
             this.launchpadButton51.ID = 64;
-            this.launchpadButton51.Location = new System.Drawing.Point(352, 173);
+            this.launchpadButton51.Location = new System.Drawing.Point(353, 174);
             this.launchpadButton51.Name = "launchpadButton51";
             this.launchpadButton51.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton51.TabIndex = 51;
@@ -866,7 +868,7 @@
             this.launchpadButton52.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton52.ForeColor = System.Drawing.Color.White;
             this.launchpadButton52.ID = 63;
-            this.launchpadButton52.Location = new System.Drawing.Point(301, 173);
+            this.launchpadButton52.Location = new System.Drawing.Point(302, 174);
             this.launchpadButton52.Name = "launchpadButton52";
             this.launchpadButton52.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton52.TabIndex = 50;
@@ -885,7 +887,7 @@
             this.launchpadButton53.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton53.ForeColor = System.Drawing.Color.White;
             this.launchpadButton53.ID = 62;
-            this.launchpadButton53.Location = new System.Drawing.Point(250, 173);
+            this.launchpadButton53.Location = new System.Drawing.Point(251, 174);
             this.launchpadButton53.Name = "launchpadButton53";
             this.launchpadButton53.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton53.TabIndex = 49;
@@ -904,7 +906,7 @@
             this.launchpadButton54.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton54.ForeColor = System.Drawing.Color.White;
             this.launchpadButton54.ID = 61;
-            this.launchpadButton54.Location = new System.Drawing.Point(199, 173);
+            this.launchpadButton54.Location = new System.Drawing.Point(200, 174);
             this.launchpadButton54.Name = "launchpadButton54";
             this.launchpadButton54.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton54.TabIndex = 48;
@@ -923,7 +925,7 @@
             this.launchpadButton37.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton37.ForeColor = System.Drawing.Color.White;
             this.launchpadButton37.ID = 59;
-            this.launchpadButton37.Location = new System.Drawing.Point(607, 224);
+            this.launchpadButton37.Location = new System.Drawing.Point(608, 225);
             this.launchpadButton37.Name = "launchpadButton37";
             this.launchpadButton37.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton37.TabIndex = 47;
@@ -942,7 +944,7 @@
             this.launchpadButton38.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton38.ForeColor = System.Drawing.Color.White;
             this.launchpadButton38.ID = 58;
-            this.launchpadButton38.Location = new System.Drawing.Point(556, 224);
+            this.launchpadButton38.Location = new System.Drawing.Point(557, 225);
             this.launchpadButton38.Name = "launchpadButton38";
             this.launchpadButton38.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton38.TabIndex = 46;
@@ -961,7 +963,7 @@
             this.launchpadButton39.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton39.ForeColor = System.Drawing.Color.White;
             this.launchpadButton39.ID = 57;
-            this.launchpadButton39.Location = new System.Drawing.Point(505, 224);
+            this.launchpadButton39.Location = new System.Drawing.Point(506, 225);
             this.launchpadButton39.Name = "launchpadButton39";
             this.launchpadButton39.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton39.TabIndex = 45;
@@ -980,7 +982,7 @@
             this.launchpadButton40.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton40.ForeColor = System.Drawing.Color.White;
             this.launchpadButton40.ID = 56;
-            this.launchpadButton40.Location = new System.Drawing.Point(454, 224);
+            this.launchpadButton40.Location = new System.Drawing.Point(455, 225);
             this.launchpadButton40.Name = "launchpadButton40";
             this.launchpadButton40.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton40.TabIndex = 44;
@@ -999,7 +1001,7 @@
             this.launchpadButton41.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton41.ForeColor = System.Drawing.Color.White;
             this.launchpadButton41.ID = 55;
-            this.launchpadButton41.Location = new System.Drawing.Point(403, 224);
+            this.launchpadButton41.Location = new System.Drawing.Point(404, 225);
             this.launchpadButton41.Name = "launchpadButton41";
             this.launchpadButton41.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton41.TabIndex = 43;
@@ -1018,7 +1020,7 @@
             this.launchpadButton42.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton42.ForeColor = System.Drawing.Color.White;
             this.launchpadButton42.ID = 54;
-            this.launchpadButton42.Location = new System.Drawing.Point(352, 224);
+            this.launchpadButton42.Location = new System.Drawing.Point(353, 225);
             this.launchpadButton42.Name = "launchpadButton42";
             this.launchpadButton42.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton42.TabIndex = 42;
@@ -1037,7 +1039,7 @@
             this.launchpadButton43.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton43.ForeColor = System.Drawing.Color.White;
             this.launchpadButton43.ID = 53;
-            this.launchpadButton43.Location = new System.Drawing.Point(301, 224);
+            this.launchpadButton43.Location = new System.Drawing.Point(302, 225);
             this.launchpadButton43.Name = "launchpadButton43";
             this.launchpadButton43.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton43.TabIndex = 41;
@@ -1056,7 +1058,7 @@
             this.launchpadButton44.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton44.ForeColor = System.Drawing.Color.White;
             this.launchpadButton44.ID = 52;
-            this.launchpadButton44.Location = new System.Drawing.Point(250, 224);
+            this.launchpadButton44.Location = new System.Drawing.Point(251, 225);
             this.launchpadButton44.Name = "launchpadButton44";
             this.launchpadButton44.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton44.TabIndex = 40;
@@ -1075,7 +1077,7 @@
             this.launchpadButton45.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton45.ForeColor = System.Drawing.Color.White;
             this.launchpadButton45.ID = 51;
-            this.launchpadButton45.Location = new System.Drawing.Point(199, 224);
+            this.launchpadButton45.Location = new System.Drawing.Point(200, 225);
             this.launchpadButton45.Name = "launchpadButton45";
             this.launchpadButton45.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton45.TabIndex = 39;
@@ -1094,7 +1096,7 @@
             this.launchpadButton28.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton28.ForeColor = System.Drawing.Color.White;
             this.launchpadButton28.ID = 49;
-            this.launchpadButton28.Location = new System.Drawing.Point(607, 275);
+            this.launchpadButton28.Location = new System.Drawing.Point(608, 276);
             this.launchpadButton28.Name = "launchpadButton28";
             this.launchpadButton28.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton28.TabIndex = 38;
@@ -1113,7 +1115,7 @@
             this.launchpadButton29.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton29.ForeColor = System.Drawing.Color.White;
             this.launchpadButton29.ID = 48;
-            this.launchpadButton29.Location = new System.Drawing.Point(556, 275);
+            this.launchpadButton29.Location = new System.Drawing.Point(557, 276);
             this.launchpadButton29.Name = "launchpadButton29";
             this.launchpadButton29.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton29.TabIndex = 37;
@@ -1132,7 +1134,7 @@
             this.launchpadButton30.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton30.ForeColor = System.Drawing.Color.White;
             this.launchpadButton30.ID = 47;
-            this.launchpadButton30.Location = new System.Drawing.Point(505, 275);
+            this.launchpadButton30.Location = new System.Drawing.Point(506, 276);
             this.launchpadButton30.Name = "launchpadButton30";
             this.launchpadButton30.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton30.TabIndex = 36;
@@ -1151,7 +1153,7 @@
             this.launchpadButton31.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton31.ForeColor = System.Drawing.Color.White;
             this.launchpadButton31.ID = 46;
-            this.launchpadButton31.Location = new System.Drawing.Point(454, 275);
+            this.launchpadButton31.Location = new System.Drawing.Point(455, 276);
             this.launchpadButton31.Name = "launchpadButton31";
             this.launchpadButton31.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton31.TabIndex = 35;
@@ -1170,7 +1172,7 @@
             this.launchpadButton32.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton32.ForeColor = System.Drawing.Color.White;
             this.launchpadButton32.ID = 45;
-            this.launchpadButton32.Location = new System.Drawing.Point(403, 275);
+            this.launchpadButton32.Location = new System.Drawing.Point(404, 276);
             this.launchpadButton32.Name = "launchpadButton32";
             this.launchpadButton32.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton32.TabIndex = 34;
@@ -1189,7 +1191,7 @@
             this.launchpadButton33.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton33.ForeColor = System.Drawing.Color.White;
             this.launchpadButton33.ID = 44;
-            this.launchpadButton33.Location = new System.Drawing.Point(352, 275);
+            this.launchpadButton33.Location = new System.Drawing.Point(353, 276);
             this.launchpadButton33.Name = "launchpadButton33";
             this.launchpadButton33.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton33.TabIndex = 33;
@@ -1208,7 +1210,7 @@
             this.launchpadButton34.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton34.ForeColor = System.Drawing.Color.White;
             this.launchpadButton34.ID = 43;
-            this.launchpadButton34.Location = new System.Drawing.Point(301, 275);
+            this.launchpadButton34.Location = new System.Drawing.Point(302, 276);
             this.launchpadButton34.Name = "launchpadButton34";
             this.launchpadButton34.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton34.TabIndex = 32;
@@ -1227,7 +1229,7 @@
             this.launchpadButton35.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton35.ForeColor = System.Drawing.Color.White;
             this.launchpadButton35.ID = 42;
-            this.launchpadButton35.Location = new System.Drawing.Point(250, 275);
+            this.launchpadButton35.Location = new System.Drawing.Point(251, 276);
             this.launchpadButton35.Name = "launchpadButton35";
             this.launchpadButton35.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton35.TabIndex = 31;
@@ -1246,7 +1248,7 @@
             this.launchpadButton36.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton36.ForeColor = System.Drawing.Color.White;
             this.launchpadButton36.ID = 41;
-            this.launchpadButton36.Location = new System.Drawing.Point(199, 275);
+            this.launchpadButton36.Location = new System.Drawing.Point(200, 276);
             this.launchpadButton36.Name = "launchpadButton36";
             this.launchpadButton36.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton36.TabIndex = 30;
@@ -1265,7 +1267,7 @@
             this.launchpadButton19.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton19.ForeColor = System.Drawing.Color.White;
             this.launchpadButton19.ID = 39;
-            this.launchpadButton19.Location = new System.Drawing.Point(607, 326);
+            this.launchpadButton19.Location = new System.Drawing.Point(608, 327);
             this.launchpadButton19.Name = "launchpadButton19";
             this.launchpadButton19.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton19.TabIndex = 29;
@@ -1284,7 +1286,7 @@
             this.launchpadButton20.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton20.ForeColor = System.Drawing.Color.White;
             this.launchpadButton20.ID = 38;
-            this.launchpadButton20.Location = new System.Drawing.Point(556, 326);
+            this.launchpadButton20.Location = new System.Drawing.Point(557, 327);
             this.launchpadButton20.Name = "launchpadButton20";
             this.launchpadButton20.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton20.TabIndex = 28;
@@ -1303,7 +1305,7 @@
             this.launchpadButton21.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton21.ForeColor = System.Drawing.Color.White;
             this.launchpadButton21.ID = 37;
-            this.launchpadButton21.Location = new System.Drawing.Point(505, 326);
+            this.launchpadButton21.Location = new System.Drawing.Point(506, 327);
             this.launchpadButton21.Name = "launchpadButton21";
             this.launchpadButton21.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton21.TabIndex = 27;
@@ -1322,7 +1324,7 @@
             this.launchpadButton22.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton22.ForeColor = System.Drawing.Color.White;
             this.launchpadButton22.ID = 36;
-            this.launchpadButton22.Location = new System.Drawing.Point(454, 326);
+            this.launchpadButton22.Location = new System.Drawing.Point(455, 327);
             this.launchpadButton22.Name = "launchpadButton22";
             this.launchpadButton22.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton22.TabIndex = 26;
@@ -1341,7 +1343,7 @@
             this.launchpadButton23.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton23.ForeColor = System.Drawing.Color.White;
             this.launchpadButton23.ID = 35;
-            this.launchpadButton23.Location = new System.Drawing.Point(403, 326);
+            this.launchpadButton23.Location = new System.Drawing.Point(404, 327);
             this.launchpadButton23.Name = "launchpadButton23";
             this.launchpadButton23.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton23.TabIndex = 25;
@@ -1360,7 +1362,7 @@
             this.launchpadButton24.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton24.ForeColor = System.Drawing.Color.White;
             this.launchpadButton24.ID = 34;
-            this.launchpadButton24.Location = new System.Drawing.Point(352, 326);
+            this.launchpadButton24.Location = new System.Drawing.Point(353, 327);
             this.launchpadButton24.Name = "launchpadButton24";
             this.launchpadButton24.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton24.TabIndex = 24;
@@ -1379,7 +1381,7 @@
             this.launchpadButton25.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton25.ForeColor = System.Drawing.Color.White;
             this.launchpadButton25.ID = 33;
-            this.launchpadButton25.Location = new System.Drawing.Point(301, 326);
+            this.launchpadButton25.Location = new System.Drawing.Point(302, 327);
             this.launchpadButton25.Name = "launchpadButton25";
             this.launchpadButton25.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton25.TabIndex = 23;
@@ -1398,7 +1400,7 @@
             this.launchpadButton26.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton26.ForeColor = System.Drawing.Color.White;
             this.launchpadButton26.ID = 32;
-            this.launchpadButton26.Location = new System.Drawing.Point(250, 326);
+            this.launchpadButton26.Location = new System.Drawing.Point(251, 327);
             this.launchpadButton26.Name = "launchpadButton26";
             this.launchpadButton26.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton26.TabIndex = 22;
@@ -1417,7 +1419,7 @@
             this.launchpadButton27.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton27.ForeColor = System.Drawing.Color.White;
             this.launchpadButton27.ID = 31;
-            this.launchpadButton27.Location = new System.Drawing.Point(199, 326);
+            this.launchpadButton27.Location = new System.Drawing.Point(200, 327);
             this.launchpadButton27.Name = "launchpadButton27";
             this.launchpadButton27.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton27.TabIndex = 21;
@@ -1436,7 +1438,7 @@
             this.launchpadButton9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton9.ForeColor = System.Drawing.Color.White;
             this.launchpadButton9.ID = 29;
-            this.launchpadButton9.Location = new System.Drawing.Point(607, 377);
+            this.launchpadButton9.Location = new System.Drawing.Point(608, 378);
             this.launchpadButton9.Name = "launchpadButton9";
             this.launchpadButton9.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton9.TabIndex = 20;
@@ -1455,7 +1457,7 @@
             this.launchpadButton11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton11.ForeColor = System.Drawing.Color.White;
             this.launchpadButton11.ID = 28;
-            this.launchpadButton11.Location = new System.Drawing.Point(556, 377);
+            this.launchpadButton11.Location = new System.Drawing.Point(557, 378);
             this.launchpadButton11.Name = "launchpadButton11";
             this.launchpadButton11.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton11.TabIndex = 19;
@@ -1474,7 +1476,7 @@
             this.launchpadButton12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton12.ForeColor = System.Drawing.Color.White;
             this.launchpadButton12.ID = 27;
-            this.launchpadButton12.Location = new System.Drawing.Point(505, 377);
+            this.launchpadButton12.Location = new System.Drawing.Point(506, 378);
             this.launchpadButton12.Name = "launchpadButton12";
             this.launchpadButton12.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton12.TabIndex = 18;
@@ -1493,7 +1495,7 @@
             this.launchpadButton13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton13.ForeColor = System.Drawing.Color.White;
             this.launchpadButton13.ID = 26;
-            this.launchpadButton13.Location = new System.Drawing.Point(454, 377);
+            this.launchpadButton13.Location = new System.Drawing.Point(455, 378);
             this.launchpadButton13.Name = "launchpadButton13";
             this.launchpadButton13.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton13.TabIndex = 17;
@@ -1512,7 +1514,7 @@
             this.launchpadButton14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton14.ForeColor = System.Drawing.Color.White;
             this.launchpadButton14.ID = 25;
-            this.launchpadButton14.Location = new System.Drawing.Point(403, 377);
+            this.launchpadButton14.Location = new System.Drawing.Point(404, 378);
             this.launchpadButton14.Name = "launchpadButton14";
             this.launchpadButton14.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton14.TabIndex = 16;
@@ -1531,7 +1533,7 @@
             this.launchpadButton15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton15.ForeColor = System.Drawing.Color.White;
             this.launchpadButton15.ID = 24;
-            this.launchpadButton15.Location = new System.Drawing.Point(352, 377);
+            this.launchpadButton15.Location = new System.Drawing.Point(353, 378);
             this.launchpadButton15.Name = "launchpadButton15";
             this.launchpadButton15.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton15.TabIndex = 15;
@@ -1550,7 +1552,7 @@
             this.launchpadButton16.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton16.ForeColor = System.Drawing.Color.White;
             this.launchpadButton16.ID = 23;
-            this.launchpadButton16.Location = new System.Drawing.Point(301, 377);
+            this.launchpadButton16.Location = new System.Drawing.Point(302, 378);
             this.launchpadButton16.Name = "launchpadButton16";
             this.launchpadButton16.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton16.TabIndex = 14;
@@ -1569,7 +1571,7 @@
             this.launchpadButton17.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton17.ForeColor = System.Drawing.Color.White;
             this.launchpadButton17.ID = 22;
-            this.launchpadButton17.Location = new System.Drawing.Point(250, 377);
+            this.launchpadButton17.Location = new System.Drawing.Point(251, 378);
             this.launchpadButton17.Name = "launchpadButton17";
             this.launchpadButton17.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton17.TabIndex = 13;
@@ -1588,7 +1590,7 @@
             this.launchpadButton18.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton18.ForeColor = System.Drawing.Color.White;
             this.launchpadButton18.ID = 21;
-            this.launchpadButton18.Location = new System.Drawing.Point(199, 377);
+            this.launchpadButton18.Location = new System.Drawing.Point(200, 378);
             this.launchpadButton18.Name = "launchpadButton18";
             this.launchpadButton18.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton18.TabIndex = 12;
@@ -1607,7 +1609,7 @@
             this.launchpadButton10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton10.ForeColor = System.Drawing.Color.White;
             this.launchpadButton10.ID = 19;
-            this.launchpadButton10.Location = new System.Drawing.Point(607, 428);
+            this.launchpadButton10.Location = new System.Drawing.Point(608, 429);
             this.launchpadButton10.Name = "launchpadButton10";
             this.launchpadButton10.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton10.TabIndex = 11;
@@ -1626,7 +1628,7 @@
             this.launchpadButton7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton7.ForeColor = System.Drawing.Color.White;
             this.launchpadButton7.ID = 18;
-            this.launchpadButton7.Location = new System.Drawing.Point(556, 428);
+            this.launchpadButton7.Location = new System.Drawing.Point(557, 429);
             this.launchpadButton7.Name = "launchpadButton7";
             this.launchpadButton7.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton7.TabIndex = 10;
@@ -1645,7 +1647,7 @@
             this.launchpadButton8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton8.ForeColor = System.Drawing.Color.White;
             this.launchpadButton8.ID = 17;
-            this.launchpadButton8.Location = new System.Drawing.Point(505, 428);
+            this.launchpadButton8.Location = new System.Drawing.Point(506, 429);
             this.launchpadButton8.Name = "launchpadButton8";
             this.launchpadButton8.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton8.TabIndex = 9;
@@ -1664,7 +1666,7 @@
             this.launchpadButton5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton5.ForeColor = System.Drawing.Color.White;
             this.launchpadButton5.ID = 16;
-            this.launchpadButton5.Location = new System.Drawing.Point(454, 428);
+            this.launchpadButton5.Location = new System.Drawing.Point(455, 429);
             this.launchpadButton5.Name = "launchpadButton5";
             this.launchpadButton5.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton5.TabIndex = 8;
@@ -1683,7 +1685,7 @@
             this.launchpadButton6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton6.ForeColor = System.Drawing.Color.White;
             this.launchpadButton6.ID = 15;
-            this.launchpadButton6.Location = new System.Drawing.Point(403, 428);
+            this.launchpadButton6.Location = new System.Drawing.Point(404, 429);
             this.launchpadButton6.Name = "launchpadButton6";
             this.launchpadButton6.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton6.TabIndex = 7;
@@ -1702,7 +1704,7 @@
             this.launchpadButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton3.ForeColor = System.Drawing.Color.White;
             this.launchpadButton3.ID = 14;
-            this.launchpadButton3.Location = new System.Drawing.Point(352, 428);
+            this.launchpadButton3.Location = new System.Drawing.Point(353, 429);
             this.launchpadButton3.Name = "launchpadButton3";
             this.launchpadButton3.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton3.TabIndex = 6;
@@ -1721,7 +1723,7 @@
             this.launchpadButton4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton4.ForeColor = System.Drawing.Color.White;
             this.launchpadButton4.ID = 13;
-            this.launchpadButton4.Location = new System.Drawing.Point(301, 428);
+            this.launchpadButton4.Location = new System.Drawing.Point(302, 429);
             this.launchpadButton4.Name = "launchpadButton4";
             this.launchpadButton4.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton4.TabIndex = 5;
@@ -1740,7 +1742,7 @@
             this.launchpadButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton2.ForeColor = System.Drawing.Color.White;
             this.launchpadButton2.ID = 12;
-            this.launchpadButton2.Location = new System.Drawing.Point(250, 428);
+            this.launchpadButton2.Location = new System.Drawing.Point(251, 429);
             this.launchpadButton2.Name = "launchpadButton2";
             this.launchpadButton2.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton2.TabIndex = 4;
@@ -1759,7 +1761,7 @@
             this.launchpadButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.launchpadButton1.ForeColor = System.Drawing.Color.White;
             this.launchpadButton1.ID = 11;
-            this.launchpadButton1.Location = new System.Drawing.Point(199, 428);
+            this.launchpadButton1.Location = new System.Drawing.Point(200, 429);
             this.launchpadButton1.Name = "launchpadButton1";
             this.launchpadButton1.Size = new System.Drawing.Size(45, 45);
             this.launchpadButton1.TabIndex = 3;
@@ -1771,6 +1773,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
             this.ClientSize = new System.Drawing.Size(800, 485);
             this.Controls.Add(this.launchpadButton73);
             this.Controls.Add(this.launchpadButton74);
@@ -1855,8 +1858,11 @@
             this.Controls.Add(this.launchpadButton1);
             this.Controls.Add(this.reloadButton);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "OBS Control";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

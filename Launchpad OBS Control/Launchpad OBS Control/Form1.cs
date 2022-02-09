@@ -176,23 +176,16 @@ namespace Launchpad_OBS_Control
                 buttonList[b.ID] = b;
             }
 
+            foreach(LaunchpadButton b in buttonList)
+            {
+                if(b!=null) b.Enabled = false;
+            }
+            reloadButton.Enabled = false;
+
             loadCollorList();
 
             t = new Thread(colors);
             t.Start();
-
-            string dirjson = "./json";
-            string dirset = "./json/set";
-
-            if (!Directory.Exists(dirjson))
-            {
-                Directory.CreateDirectory(dirjson);
-            }
-
-            if (!Directory.Exists(dirset))
-            {
-                Directory.CreateDirectory (dirset);
-            }
 
             LoadSettings();
 
@@ -224,6 +217,63 @@ namespace Launchpad_OBS_Control
                     Console.WriteLine("  {0}", device.Name);
                     midiOutBox.Items.Add(device.Name);
                 }
+            }
+
+            string folderPath1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol");
+            if (!Directory.Exists(folderPath1))
+            {
+                try
+                {
+                    Directory.CreateDirectory(folderPath1);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            try
+            {
+                try
+                {
+                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\def.json");
+                    sr = new StreamReader(path);
+                }
+                catch
+                {
+                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\def.json");
+
+                    using (FileStream fs = File.Create(path))
+                        fs.Close();
+
+                    StreamWriter sw = new StreamWriter(path);
+
+                    DefClass defClass = new DefClass() { indexIN = 0, indexOUT = 0 };
+
+                    string j = JsonConvert.SerializeObject(defClass);
+
+                    sw.Write(j);
+                    sw.Close();
+
+                    sr = new StreamReader(path);
+                }
+                string settings = sr.ReadToEnd();
+                sr.Close();
+
+                try
+                {
+                    DefClass d = JsonConvert.DeserializeObject<DefClass>(settings);
+                    midiInBox.SelectedIndex = d.indexIN;
+                    midiOutBox.SelectedIndex = d.indexOUT;
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
             //Connecting to WebSocket on localhost port 4444 (OBS)
@@ -312,7 +362,32 @@ namespace Launchpad_OBS_Control
 
                 midiInBox.Enabled = false;
                 midiOutBox.Enabled = false;
+
+                foreach (LaunchpadButton b in buttonList)
+                {
+                    if (b != null) b.Enabled = true;
+                }
+
+                reloadButton.Enabled = true;
+
                 connectButton.Text = "Disconnect";
+
+                try
+                {
+                    string path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"OBScontrol\def.json");
+                    StreamWriter sw = new StreamWriter(path);
+
+                    DefClass defClass = new DefClass() { indexIN = midiInBox.SelectedIndex, indexOUT = midiOutBox.SelectedIndex };
+
+                    string j = JsonConvert.SerializeObject(defClass);
+
+                    sw.Write(j);
+                    sw.Close();
+                }
+                catch(Exception ex) 
+                { 
+                    Console.WriteLine(ex.Message);
+                }
 
             }
             else
@@ -323,6 +398,12 @@ namespace Launchpad_OBS_Control
                 inputDevice.StopReceiving();
                 inputDevice.Close();
                 authRequired = false;
+
+                foreach (LaunchpadButton b in buttonList)
+                {
+                    if (b != null) b.Enabled = false;
+                }
+                reloadButton.Enabled = false;
             }
         }
 
@@ -797,9 +878,21 @@ namespace Launchpad_OBS_Control
                             if (isRecMatch.Groups[0].Value == "true")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                             else
@@ -831,9 +924,21 @@ namespace Launchpad_OBS_Control
                             if (isVirtualCamMatch.Groups[0].Value == "true")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if(padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                             else
@@ -866,9 +971,21 @@ namespace Launchpad_OBS_Control
                             if (isStreamMatch.Groups[0].Value == "true")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                             else
@@ -899,9 +1016,21 @@ namespace Launchpad_OBS_Control
                         try
                         {
                             outputDevice.Open();
-                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                            byte[] dataToSend = { 0 };
+                            if (padColorSettingsMode[s.id, 0] == 1)
+                            {
+                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                            }
+                            else if (padColorSettingsMode[s.id, 0] == 2)
+                            {
+                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                            }
+                            else if (padColorSettingsMode[s.id, 0] == 3)
+                            {
+                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                            }
                             onOff[s.id] = 1;
-                            outputDevice.SendSysEx(stat);
+                            outputDevice.SendSysEx(dataToSend);
                             outputDevice.Close();
                         }catch (Exception ex)
                         {
@@ -941,9 +1070,21 @@ namespace Launchpad_OBS_Control
                                 if(s.mute == mutedName.Groups[0].Value)
                                 {
                                     outputDevice.Open();
-                                    byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    byte[] dataToSend = { 0 };
+                                    if (padColorSettingsMode[s.id, 0] == 1)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
+                                    else if (padColorSettingsMode[s.id, 0] == 2)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
+                                    else if (padColorSettingsMode[s.id, 0] == 3)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
                                     onOff[s.id] = 1;
-                                    outputDevice.SendSysEx(stat);
+                                    outputDevice.SendSysEx(dataToSend);
                                     outputDevice.Close();
                                 }
                             }
@@ -1023,9 +1164,21 @@ namespace Launchpad_OBS_Control
                             if(s.request == "StartStopRecording")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                         }
@@ -1051,9 +1204,21 @@ namespace Launchpad_OBS_Control
                             if(s.request == "StartStopStreaming")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                         }
@@ -1079,9 +1244,21 @@ namespace Launchpad_OBS_Control
                             if (s.request == "StartStopVirtualCam")
                             {
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
                             }
                         }
@@ -1135,9 +1312,21 @@ namespace Launchpad_OBS_Control
                                     if(s.scene == toScene.Groups[0].Value)
                                     {
                                         outputDevice.Open();
-                                        byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                        byte[] dataToSend = { 0 };
+                                        if (padColorSettingsMode[s.id, 0] == 1)
+                                        {
+                                            dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                        }
+                                        else if (padColorSettingsMode[s.id, 0] == 2)
+                                        {
+                                            dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                        }
+                                        else if (padColorSettingsMode[s.id, 0] == 3)
+                                        {
+                                            dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                        }
                                         onOff[s.id] = 1;
-                                        outputDevice.SendSysEx(stat);
+                                        outputDevice.SendSysEx(dataToSend);
                                         outputDevice.Close();
                                     }
                                 }
@@ -1163,9 +1352,21 @@ namespace Launchpad_OBS_Control
                                         if(s.mute == sourceName.Groups[0].Value)
                                         {
                                             outputDevice.Open();
-                                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            byte[] dataToSend = { 0 };
+                                            if (padColorSettingsMode[s.id, 0] == 1)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 2)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 3)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
                                             onOff[s.id] = 1;
-                                            outputDevice.SendSysEx(stat);
+                                            outputDevice.SendSysEx(dataToSend);
                                             outputDevice.Close();
                                         }
                                     }
@@ -1197,9 +1398,21 @@ namespace Launchpad_OBS_Control
                                 if(s.media == sourceName.Groups[0].Value)
                                 {
                                     outputDevice.Open();
-                                    byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                    byte[] dataToSend = { 0 };
+                                    if (padColorSettingsMode[s.id, 0] == 1)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
+                                    else if (padColorSettingsMode[s.id, 0] == 2)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
+                                    else if (padColorSettingsMode[s.id, 0] == 3)
+                                    {
+                                        dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                    }
                                     onOff[s.id] = 1;
-                                    outputDevice.SendSysEx(blink);
+                                    outputDevice.SendSysEx(dataToSend);
                                     outputDevice.Close();
                                 }
                             }
@@ -1256,9 +1469,21 @@ namespace Launchpad_OBS_Control
                                         if (s.source == itemVisible.Groups[0].Value)
                                         {
                                             outputDevice.Open();
-                                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            byte[] dataToSend = { 0 };
+                                            if (padColorSettingsMode[s.id, 0] == 1)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 2)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 3)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
                                             onOff[s.id] = 1;
-                                            outputDevice.SendSysEx(stat);
+                                            outputDevice.SendSysEx(dataToSend);
                                             outputDevice.Close();
                                         }
                                     }
@@ -1267,9 +1492,21 @@ namespace Launchpad_OBS_Control
                                         if (s.source == itemVisible.Groups[0].Value)
                                         {
                                             outputDevice.Open();
-                                            byte[] stat = { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            byte[] dataToSend = { 0 };
+                                            if (padColorSettingsMode[s.id, 0] == 1)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 2)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
+                                            else if (padColorSettingsMode[s.id, 0] == 3)
+                                            {
+                                                dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                            }
                                             onOff[s.id] = 1;
-                                            outputDevice.SendSysEx(stat);
+                                            outputDevice.SendSysEx(dataToSend);
                                             outputDevice.Close();
                                         }
                                     }
@@ -1405,9 +1642,21 @@ namespace Launchpad_OBS_Control
                                 wPlayer.controls.play();
 
                                 outputDevice.Open();
-                                byte[] blink = { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                byte[] dataToSend = { 0 };
+                                if (padColorSettingsMode[s.id, 0] == 1)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 0, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 2)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 1, (byte)s.id, (byte)padColorSettingsOFF[s.id, 0], (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
+                                else if (padColorSettingsMode[s.id, 0] == 3)
+                                {
+                                    dataToSend = new byte[] { 240, 0, 32, 41, 2, 13, 3, 2, (byte)s.id, (byte)padColorSettingsON[s.id, 0], 247 };
+                                }
                                 onOff[s.id] = 1;
-                                outputDevice.SendSysEx(blink);
+                                outputDevice.SendSysEx(dataToSend);
                                 outputDevice.Close();
 
                                 while(wPlayer.playState != WMPPlayState.wmppsStopped)
@@ -1475,7 +1724,7 @@ namespace Launchpad_OBS_Control
         {
             LaunchpadButton button = (LaunchpadButton)sender;
             int buttonId = button.ID;
-            SetForm setform = new SetForm(buttonId, sceneList, mediaList, soundSourceList, transitionList);
+            SetForm setform = new SetForm(buttonId, sceneList, mediaList, soundSourceList, transitionList, sender);
             DialogResult dialogresult = setform.ShowDialog();
             if (dialogresult == DialogResult.OK)
             {
@@ -1675,6 +1924,14 @@ namespace Launchpad_OBS_Control
             collorList.Add(new CollorClass() { color = 126, rgb = Color.FromArgb(238, 194, 97) });
             collorList.Add(new CollorClass() { color = 127, rgb = Color.FromArgb(194, 118, 97) });
         }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (t.IsAlive)
+            {
+                t.Abort();
+            }
+        }
     }
 }
 
@@ -1689,6 +1946,12 @@ namespace Launchpad_OBS_Control
     public string MediaRender { get; set; }
     public string MediaMuted { get; set; }
 }*/
+
+public class DefClass
+{
+    public int indexIN { get; set; }
+    public int indexOUT { get; set; }
+}
 
 public class MediaListClass
 {

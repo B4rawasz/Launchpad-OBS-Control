@@ -41,12 +41,12 @@
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.HelpButton = new System.Windows.Forms.Button();
             this.Color2NumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.Color1NumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.HelpButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.VirtualCamCheckBox = new System.Windows.Forms.CheckBox();
             this.RecCheckBox = new System.Windows.Forms.CheckBox();
@@ -190,6 +190,7 @@
             // 
             this.groupBox1.Controls.Add(this.panel3);
             this.groupBox1.Controls.Add(this.panel2);
+            this.groupBox1.ForeColor = System.Drawing.Color.White;
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(207, 162);
@@ -203,22 +204,13 @@
             this.groupBox2.Controls.Add(this.label4);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.panel1);
+            this.groupBox2.ForeColor = System.Drawing.Color.White;
             this.groupBox2.Location = new System.Drawing.Point(225, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(497, 162);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Color";
-            // 
-            // HelpButton
-            // 
-            this.HelpButton.Location = new System.Drawing.Point(6, 69);
-            this.HelpButton.Name = "HelpButton";
-            this.HelpButton.Size = new System.Drawing.Size(87, 23);
-            this.HelpButton.TabIndex = 41;
-            this.HelpButton.Text = "?";
-            this.HelpButton.UseVisualStyleBackColor = true;
-            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
             // 
             // Color2NumericUpDown
             // 
@@ -271,11 +263,23 @@
             this.panel1.Size = new System.Drawing.Size(285, 137);
             this.panel1.TabIndex = 34;
             // 
+            // HelpButton
+            // 
+            this.HelpButton.ForeColor = System.Drawing.Color.Black;
+            this.HelpButton.Location = new System.Drawing.Point(6, 69);
+            this.HelpButton.Name = "HelpButton";
+            this.HelpButton.Size = new System.Drawing.Size(87, 23);
+            this.HelpButton.TabIndex = 41;
+            this.HelpButton.Text = "?";
+            this.HelpButton.UseVisualStyleBackColor = true;
+            this.HelpButton.Click += new System.EventHandler(this.HelpButton_Click);
+            // 
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.VirtualCamCheckBox);
             this.groupBox4.Controls.Add(this.RecCheckBox);
             this.groupBox4.Controls.Add(this.StreamCheckBox);
+            this.groupBox4.ForeColor = System.Drawing.Color.White;
             this.groupBox4.Location = new System.Drawing.Point(12, 180);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(208, 162);
@@ -330,6 +334,7 @@
             // 
             this.groupBox5.Controls.Add(this.SceneCheckBox);
             this.groupBox5.Controls.Add(this.SceneListBox);
+            this.groupBox5.ForeColor = System.Drawing.Color.White;
             this.groupBox5.Location = new System.Drawing.Point(231, 180);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(133, 162);
@@ -357,6 +362,7 @@
             this.groupBox6.Controls.Add(this.VisibilityONCheckBox);
             this.groupBox6.Controls.Add(this.MediaCheckBox);
             this.groupBox6.Controls.Add(this.MediaTabControl);
+            this.groupBox6.ForeColor = System.Drawing.Color.White;
             this.groupBox6.Location = new System.Drawing.Point(370, 181);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(333, 162);
@@ -442,6 +448,7 @@
             // 
             this.groupBox7.Controls.Add(this.MuteListBox);
             this.groupBox7.Controls.Add(this.MuteCheckBox);
+            this.groupBox7.ForeColor = System.Drawing.Color.White;
             this.groupBox7.Location = new System.Drawing.Point(12, 349);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(134, 162);
@@ -477,6 +484,7 @@
             this.groupBox8.Controls.Add(this.FileTextBox);
             this.groupBox8.Controls.Add(this.FileButton);
             this.groupBox8.Controls.Add(this.SoundCheckBox);
+            this.groupBox8.ForeColor = System.Drawing.Color.White;
             this.groupBox8.Location = new System.Drawing.Point(153, 349);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Size = new System.Drawing.Size(443, 162);
@@ -519,6 +527,7 @@
             // 
             // TestSoundButton
             // 
+            this.TestSoundButton.ForeColor = System.Drawing.Color.Black;
             this.TestSoundButton.Location = new System.Drawing.Point(362, 133);
             this.TestSoundButton.Name = "TestSoundButton";
             this.TestSoundButton.Size = new System.Drawing.Size(75, 23);
@@ -536,6 +545,7 @@
             // 
             // FileButton
             // 
+            this.FileButton.ForeColor = System.Drawing.Color.Black;
             this.FileButton.Location = new System.Drawing.Point(6, 43);
             this.FileButton.Name = "FileButton";
             this.FileButton.Size = new System.Drawing.Size(75, 23);
@@ -557,6 +567,7 @@
             // 
             // ClearButton
             // 
+            this.ClearButton.ForeColor = System.Drawing.Color.Black;
             this.ClearButton.Location = new System.Drawing.Point(6, 69);
             this.ClearButton.Name = "ClearButton";
             this.ClearButton.Size = new System.Drawing.Size(89, 23);
@@ -568,6 +579,7 @@
             // groupBox9
             // 
             this.groupBox9.Controls.Add(this.ClearButton);
+            this.groupBox9.ForeColor = System.Drawing.Color.White;
             this.groupBox9.Location = new System.Drawing.Point(602, 349);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Size = new System.Drawing.Size(101, 162);
@@ -578,6 +590,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.HelpButton);
+            this.groupBox3.ForeColor = System.Drawing.Color.White;
             this.groupBox3.Location = new System.Drawing.Point(729, 12);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(99, 162);
@@ -589,6 +602,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(61)))), ((int)(((byte)(61)))), ((int)(((byte)(61)))));
             this.ClientSize = new System.Drawing.Size(840, 524);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox9);
@@ -601,6 +615,10 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.applyButton);
+            this.ForeColor = System.Drawing.Color.Black;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "SetForm";
             this.Text = "SetForm";
             this.Load += new System.EventHandler(this.SetForm_Load);
